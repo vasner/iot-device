@@ -3,12 +3,18 @@
  */
 #include <stdint.h>
 #include <stdio.h>
+#include <stdbool.h>
+
+typedef enum Leds {
+    LED_BLUE = 0,
+    LED_AMBER,
+    LED_GREEN,
+    NUM_LEDS, // Should always be the last
+} led_t;
 
 #define NUM_RELAYS (4)
-#define NUM_LEDS (3)
 
-uint8_t relay[NUM_RELAYS] = {0};
-uint8_t led[NUM_LEDS] = {0};
+uint8_t relays[NUM_RELAYS] = {0};
 
 typedef struct {
     float temperature;
@@ -28,7 +34,19 @@ void sensors_default(sensors_t* p_s) {
     p_s->pressure = 700;
 }
 
+uint8_t leds[NUM_LEDS] = {0};
+
+void led_on(led_t led) {
+    leds[led] = 1;
+}
+
+void led_off(led_t led) {
+    leds[led] = 0;
+}
+
 int main(void) {
+    led_on(LED_GREEN);
+
     sensors_t s;
     sensors_default(&s);
     printf("%f, %d, %d\n", s.temperature, s.pressure, s.humidity);
