@@ -8,11 +8,17 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_C_STANDARD 99)
 
 include_directories(
+    src
+    src/console
+    src/leds
 )
 
 add_executable(
     ${EXECUTABLE}
-    main.c
+    src/console/commands.c
+    src/console/console.c
+    src/leds/leds.c
+    src/main.c
 )
 
 target_compile_options(${EXECUTABLE} PRIVATE -Wall -Wextra)
