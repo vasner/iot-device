@@ -1,0 +1,22 @@
+{
+    "editor.fontSize": 13,
+    "editor.formatOnSave": true,
+    "clang-format.fallbackStyle": "Google",
+    "editor.wordWrapColumn": 120,
+    "editor.rulers": [
+        120
+    ],
+    "[c]": {
+        "editor.defaultFormatter": "xaver.clang-format"
+    },
+    "clang-format.language.c.fallbackStyle": "google",
+    "clang-format.language.c.style": "file",
+    "clang-format.language.cpp.style": "file",
+    "clang-format.language.cpp.fallbackStyle": "google",
+    "cmake.configureOnOpen": true,
+    "git.openRepositoryInParentFolders": "never",
+    "explorer.confirmDelete": false,
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+    "cortex-debug.armToolchainPath": "/absolute/path/to/gcc-arm-none-eabi-10.3-2021.10/bin",
+    "cortex-debug.openocdPath": "/absolute/path/to/openocd"
+}

@@ -3,11 +3,11 @@
  */
 #include <stdint.h>
 #include <stdio.h>
-#include <stdbool.h>
-#include <fcntl.h>
-#include <string.h>
+#include <stdlib.h>
+#include <time.h>
 #include <unistd.h>
 
+#include "pipe_console.h"
 #include "leds.h"
 
 #define NUM_RELAYS (4)
@@ -32,8 +32,6 @@ void sensors_default(sensors_t* p_s) {
     p_s->pressure = 700;
 }
 
-static const char* _rx_fifo_name = "iot_rx_fifo";
-
 int main(void) {
     static leds_t leds;
     leds_init(&leds);
@@ -42,21 +40,15 @@ int main(void) {
     sensors_t s;
     sensors_default(&s);
     sensors_measure(&s);
-
-    // Create receiver channel FIFOs
-    mkfifo(_rx_fifo_name, 0666);      
-
-    // Read messages from input FIFO
-    char tmp[256];
-    for (;;) {
-        int input_fifo = open(_rx_fifo_name, O_RDONLY);
-        if (input_fifo < 0) return -1;
-        ssize_t count = read(input_fifo, tmp, 256);
-        printf("%s", tmp);
-        close(input_fifo);
-    }
-    
-    unlink(_rx_fifo_name);
          
+    pipe_console_init();
+
+    for (;;) {
+        pipe_console_run();
+        usleep(10000);
+    }
+
+    pipe_console_deinit();
+
     return 0;
 }

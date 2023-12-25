@@ -1,11 +1,17 @@
 # iot-device
-Repository contains IoT device device and infrastructure source code
+
+Repository contains IoT device and infrastructure source code. Main purpose of the project is to learn MCU 
+programming concepts. 
+
+Detailed description of sensors is in [device project](device/README.md).
+
 
 ## Repository structure
 
+* [common](conmmon) - Contains common device/host components
 * [device](device) - Contains firmware source code
 * [host](host) - Contains device source code that can be run on host: unit-tests or test applications for firmware source code
-* [server](hardware) - Contains server sourrce code
+* [server](hardware) - Contains server source code
 
 
 ## Recommended developer environment
@@ -47,6 +53,7 @@ To add exceptions:
 * Run `pre-commit install`
 
 Auto-formatter must be enabled via git pre-commit hooks to apply automatically before every commit.
+
 
 ### Tools
 

@@ -1,0 +1,3 @@
+[submodule "device/sdk"]
+	path = device/sdk
+	url = https://github.com/ArteryTek/AT32F435_437_Firmware_Library.git

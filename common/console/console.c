@@ -16,6 +16,8 @@ void console_init(console_t* state, console_output_t console_output) {
 
 void console_process(const char* line) {
     // TODO: Implement
-    (void)line;
+    (void)line; 
 }
+
+
 

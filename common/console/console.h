@@ -6,6 +6,8 @@
 
 #include <stdint.h>
 
+#define CONSOLE_MAX_LEN_MESSAGE_BYTES (256)
+
 typedef enum {
     CONSOLE_COMMAND_HELP = 0,
     CONSOLE_COMMAND_VERSION,
