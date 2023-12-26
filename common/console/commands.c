@@ -17,4 +17,5 @@ static void _command_version_run(const char** args, uint8_t num_args, console_ou
     (void)args;
     (void)num_args;
     console_output(VERSION);
+    console_output("\n");
 }

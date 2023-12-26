@@ -6,7 +6,7 @@
 
 #include <stdint.h>
 
-#define CONSOLE_MAX_LEN_MESSAGE_BYTES (256)
+#define CONSOLE_MAX_LEN_MESSAGE_BYTES (128)
 
 typedef enum {
     CONSOLE_COMMAND_HELP = 0,
@@ -36,6 +36,6 @@ typedef struct {
 extern command_t command_version;
 
 void console_init(console_t* state, console_output_t console_output);
-void console_process(const char* line);
+void console_process(console_t* state, char* line);
 
 #endif // CONSOLE_H
