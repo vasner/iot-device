@@ -12,7 +12,7 @@ Device is based on:
 
 ## Programming via JTAG
 
-As JTAG for Artety MCUs can be used either [AT-Link EZ](https://www.arterychip.com/download/TOOL/UM0004_AT-Link_User_Manual_EN_V2.1.1.pdf) 
+As JTAG for Artery MCUs can be used either [AT-Link EZ](https://www.arterychip.com/download/TOOL/UM0004_AT-Link_User_Manual_EN_V2.1.1.pdf) 
 or [ST-Link/V2](https://www.st.com/en/development-tools/st-link-v2.html), but with custom  [OpenOCD](https://github.com/ArteryTek/openocd) 
 provided by ArteryTek. Corresponding configurations for OpenOCD are provided in [openocd](openocd) directory.
 

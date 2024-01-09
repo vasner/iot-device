@@ -35,6 +35,8 @@ void sensors_default(sensors_t* p_s) {
 }
 
 int main(void) {
+    log_set_level(LOG_LEVEL);
+
     static leds_t leds;
     leds_init(&leds);
     leds_on(&leds, LED_GREEN);

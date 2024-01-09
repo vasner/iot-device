@@ -11,10 +11,11 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 
 add_executable(
         ${EXECUTABLE}
-        main.c
-        platform/at32f435_437_clock.c
-        platform/at32f435_437_int.c
-        platform/vcom.c
+        src/main.c
+        src/interface/vcom_console.c
+        src/platform/at32f435_437_clock.c
+        src/platform/at32f435_437_int.c
+        src/platform/vcom.c
         sdk/libraries/cmsis/cm4/device_support/startup/gcc/startup_at32f435_437.s
         sdk/libraries/cmsis/cm4/device_support/system_at32f435_437.c
         sdk/libraries/drivers/src/at32f435_437_crm.c
@@ -32,7 +33,11 @@ add_executable(
 )
 
 target_include_directories(${EXECUTABLE} PRIVATE
-        platform
+        src/interface
+        src/common/console
+        src/common/leds
+        src/common/logc
+        src/platform
         sdk/libraries/cmsis/cm4/device_support
         sdk/libraries/cmsis/cm4/core_support
         sdk/libraries/drivers/inc
