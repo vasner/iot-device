@@ -42,6 +42,10 @@ static otg_core_type _otg_core_struct;
 static uint8_t _tx_buffer[MAX_LEN_TX_MESSAGE];
 
 void vcom_init(void) {
+#if defined(__GNUC__) && !defined(__clang__)
+    setvbuf(stdout, NULL, _IONBF, 0);
+#endif
+
     gpio_init_type gpio_init_struct;
 
     // Initialize OTG pins
@@ -74,9 +78,29 @@ void usb_delay_us(uint32_t us) { delay_us(us); }
 
 uint16_t vcom_receive(uint8_t* data) { return usb_vcp_get_rxdata(&_otg_core_struct.dev, data); }
 
-error_status vcom_send(uint8_t* data, uint16_t len) {
+error_status vcom_send(const uint8_t* data, uint16_t len) {
     if (len > MAX_LEN_RX_MESSAGE) return ERROR;
     memcpy(_tx_buffer, data, len);
     usb_vcp_send_data(&_otg_core_struct.dev, _tx_buffer, len);
     return SUCCESS;
 }
+
+#if defined(__GNUC__) && !defined(__clang__)
+#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+#endif
+
+/// Re-targets the C library printf function to the VCOM
+PUTCHAR_PROTOTYPE {
+    vcom_send((uint8_t*)&ch, 1);
+    return ch;
+}
+#if (defined(__GNUC__) && !defined(__clang__)) || (defined(__ICCARM__))
+#if defined(__GNUC__) && !defined(__clang__)
+int _write(int fd, char* pbuffer, int size)
+#endif
+{
+    (void)fd;
+    vcom_send((uint8_t*)pbuffer, size);
+    return size;
+}
+#endif

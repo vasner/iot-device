@@ -7,7 +7,7 @@
 #include "at32f435_437_tmr.h"
 #include "string.h"
 #include "usb_conf.h"
-#include "vcom.h"
+#include "vcom_console.h"
 
 /**
  * Set timer 1 period to 50ms.
@@ -89,23 +89,13 @@ int main(void) {
     tmr_interrupt_enable(TMR4, TMR_C4_INT, TRUE);
     tmr_interrupt_enable(TMR1, TMR_C4_INT, TRUE);
 
-    static uint32_t cnt = 0;
-    static uint8_t tx_data[MAX_LEN_TX_MESSAGE];
-    static uint8_t rx_data[MAX_LEN_RX_MESSAGE];
+    vcom_console_init();
 
     while (1) {
         // Software LED2 toggle
         at32_led_toggle(LED2);
-        delay_ms(500);
-
-        // Echo input data
-        uint16_t len_rx_data = vcom_receive(rx_data);
-        if (len_rx_data > 0) {
-            vcom_send(rx_data, len_rx_data);
-        } else {
-            uint16_t len_tx_data = sprintf((char*)tx_data, "0x%08lx\r\n", cnt++);
-            vcom_send(tx_data, len_tx_data);
-        }
+        delay_ms(100);
+        vcom_console_run();
     }
 
     return 0;

@@ -12,9 +12,14 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 add_executable(
         ${EXECUTABLE}
         src/main.c
+        src/common/console/console.c
+        src/common/console/commands.c
+        src/common/leds/leds.c
+        src/common/logc/log.c
         src/interface/vcom_console.c
         src/platform/at32f435_437_clock.c
         src/platform/at32f435_437_int.c
+        src/platform/at32f435_437_board.c
         src/platform/vcom.c
         sdk/libraries/cmsis/cm4/device_support/startup/gcc/startup_at32f435_437.s
         sdk/libraries/cmsis/cm4/device_support/system_at32f435_437.c
@@ -29,11 +34,11 @@ add_executable(
         sdk/middlewares/usb_drivers/src/usbd_core.c
         sdk/middlewares/usb_drivers/src/usbd_int.c
         sdk/middlewares/usb_drivers/src/usbd_sdr.c
-        sdk/project/at32f435_437_board/at32f435_437_board.c
 )
 
 target_include_directories(${EXECUTABLE} PRIVATE
         src/interface
+        src/common
         src/common/console
         src/common/leds
         src/common/logc

@@ -7,3 +7,5 @@ ColumnLimit: 120
 AlignAfterOpenBracket: BlockIndent
 BitFieldColonSpacing: After
 AccessModifierOffset: -4
+AllowShortLoopsOnASingleLine: true
+AllowShortBlocksOnASingleLine: true

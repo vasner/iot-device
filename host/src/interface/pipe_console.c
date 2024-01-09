@@ -2,6 +2,8 @@
  * Linux named pipe (aka FIFO) based console interface and commands implementation
  */
 
+#include "pipe_console.h"
+
 #include <fcntl.h>
 #include <stdint.h>
 #include <stdio.h>
