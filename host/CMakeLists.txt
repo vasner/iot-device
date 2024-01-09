@@ -12,6 +12,7 @@ include_directories(
     src/common
     src/common/console
     src/common/leds
+    src/common/logc
     src/interface
 )
 
@@ -20,6 +21,7 @@ add_executable(
     src/common/console/commands.c
     src/common/console/console.c
     src/common/leds/leds.c
+    src/common/logc/log.c
     src/interface/pipe_console.c
     src/main.c
 )

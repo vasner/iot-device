@@ -9,8 +9,10 @@
 
 #include "pipe_console.h"
 #include "leds.h"
+#include "log.h"
 
 #define NUM_RELAYS (4)
+#define LOG_LEVEL (LOG_LEVEL_DEBUG)
 
 uint8_t relays[NUM_RELAYS] = {0};
 
@@ -42,6 +44,8 @@ int main(void) {
     sensors_measure(&s);
          
     pipe_console_init();
+
+    LOG_DEBUG("Initialization is done");
 
     for (;;) {
         pipe_console_run();
