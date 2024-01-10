@@ -1,0 +1,8 @@
+[
+    {
+        "name": "ARM GCC 10.3.0",
+        "toolchainFile": "arm-none-eabi-gcc.cmake",
+        "isTrusted": true,
+        "keep": true
+    }
+]

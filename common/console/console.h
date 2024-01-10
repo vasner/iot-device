@@ -6,6 +6,8 @@
 
 #include <stdint.h>
 
+#define CONSOLE_MAX_LEN_MESSAGE_BYTES (128)
+
 typedef enum {
     CONSOLE_COMMAND_HELP = 0,
     CONSOLE_COMMAND_VERSION,
@@ -16,8 +18,9 @@ typedef enum {
     NUM_CONSOLE_COMMANDS // Should always be the last
 } command_type_t;
 
-typedef void (*console_output_t)(const char* data);
-typedef void (*command_run_t)(const char** args, uint8_t num_args, console_output_t console_output);
+typedef uint8_t (*console_get_input_t)(char* data, uint8_t max_len);
+typedef void (*console_put_output_t)(const char* data);
+typedef void (*command_run_t)(const char** args, uint8_t num_args, console_put_output_t put_output);
 
 typedef struct {
     const char* name;
@@ -27,13 +30,14 @@ typedef struct {
 
 typedef struct {
     command_t* commands[NUM_CONSOLE_COMMANDS];
-    console_output_t console_output;
+    console_get_input_t get_input;
+    console_put_output_t put_output;
     uint8_t num_commands; // Number of registered commands
 } console_t;
 
 extern command_t command_version;
 
-void console_init(console_t* state, console_output_t console_output);
-void console_process(const char* line);
+void console_init(console_t* state, console_get_input_t get_input, console_put_output_t put_output);
+void console_run(console_t* state);
 
 #endif // CONSOLE_H

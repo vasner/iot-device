@@ -9,15 +9,20 @@ set(CMAKE_C_STANDARD 99)
 
 include_directories(
     src
-    src/console
-    src/leds
+    src/common
+    src/common/console
+    src/common/leds
+    src/common/logc
+    src/interface
 )
 
 add_executable(
     ${EXECUTABLE}
-    src/console/commands.c
-    src/console/console.c
-    src/leds/leds.c
+    src/common/console/commands.c
+    src/common/console/console.c
+    src/common/leds/leds.c
+    src/common/logc/log.c
+    src/interface/pipe_console.c
     src/main.c
 )
 

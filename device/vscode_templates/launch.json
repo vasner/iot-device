@@ -1,0 +1,17 @@
+{
+    "configurations": [
+        {
+            "name": "openocd",
+            "request": "launch",
+            "type": "cortex-debug",
+            "cwd": "${workspaceRoot}",
+            "servertype": "openocd",
+            "executable": "build/iot-device.elf",
+            "svdFile": "/absolute/path/to/sdk/AT32F435_437_Firmware_Library/project/at_start_f437/templates/at32_ide/SVD/AT32F437xx_v2.svd",
+            "configFiles": [
+                "/absolute/path/to/openocd/atlink_dap_v2.cfg",
+                "/absolute/path/to/openocd/at32f437xM.cfg"
+            ]
+        }
+    ]
+}
