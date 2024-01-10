@@ -14,6 +14,10 @@
 #include "usb_core.h"
 #include "usbd_int.h"
 
+// VCOM send/receive timeout and timeout step, in us
+#define _TIMEOUT_US (1000)
+#define _TIMEOUT_STEP_US (16)
+
 #define USB_ID (0)
 
 #define OTG_PIN_GPIO (GPIOA)
@@ -80,20 +84,30 @@ uint16_t vcom_receive(uint8_t* data) { return usb_vcp_get_rxdata(&_otg_core_stru
 
 error_status vcom_send(const uint8_t* data, uint16_t len) {
     if (len > MAX_LEN_RX_MESSAGE) return ERROR;
+    
+    error_status result = ERROR;
+    uint16_t cnt_timeout = _TIMEOUT_US / _TIMEOUT_STEP_US;
     memcpy(_tx_buffer, data, len);
-    usb_vcp_send_data(&_otg_core_struct.dev, _tx_buffer, len);
-    return SUCCESS;
+    do {
+        if (usb_vcp_send_data(&_otg_core_struct.dev, _tx_buffer, len) == SUCCESS) {
+            result = SUCCESS;
+            break;
+        }
+        delay_us(_TIMEOUT_STEP_US);
+    } while (cnt_timeout--);
+    return result;
 }
 
+/// Re-targets the C library printf function to the VCOM
 #if defined(__GNUC__) && !defined(__clang__)
 #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
 #endif
 
-/// Re-targets the C library printf function to the VCOM
 PUTCHAR_PROTOTYPE {
     vcom_send((uint8_t*)&ch, 1);
     return ch;
 }
+
 #if (defined(__GNUC__) && !defined(__clang__)) || (defined(__ICCARM__))
 #if defined(__GNUC__) && !defined(__clang__)
 int _write(int fd, char* pbuffer, int size)

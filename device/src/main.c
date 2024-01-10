@@ -7,6 +7,7 @@
 #include "at32f435_437_tmr.h"
 #include "string.h"
 #include "usb_conf.h"
+#include "vcom.h"
 #include "vcom_console.h"
 
 /**

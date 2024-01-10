@@ -12,6 +12,8 @@
 
 #define _MAX_NARGS (10)
 
+static char _tmp_str[CONSOLE_MAX_LEN_MESSAGE_BYTES];
+
 static void _console_process_line(console_t* state, char* line);
 
 static void _register_command(console_t* state, command_t* command) {
@@ -23,6 +25,7 @@ void console_init(console_t* state, console_get_input_t get_input, console_put_o
     state->get_input = get_input;
     state->put_output = put_output;
     _register_command(state, &command_version);
+    put_output("\n>>> ");
 }
 
 void console_run(console_t* state) {
@@ -38,6 +41,7 @@ void console_run(console_t* state) {
             if ((raw_msg[n] == '\n') || (raw_msg[n] == '\r')) {
                 line[len_line] = '\0';
                 _console_process_line(state, line);
+                state->put_output(">>> ");
                 len_line = 0;
                 n++;
                 while (((raw_msg[n] == '\r') || (raw_msg[n] == '\n') || (raw_msg[n] == ' ')) && (n < count)) {
@@ -63,7 +67,7 @@ static void _console_process_line(console_t* state, char* line) {
         args[nargs] = token;
         token = strtok(NULL, " ");
         if (++nargs > _MAX_NARGS) {
-            printf("Number of arguments is lager than %d\n", _MAX_NARGS);
+            LOG_ERROR("Number of arguments is lager than %d\n", _MAX_NARGS);
             break;
         }
     }
@@ -73,14 +77,16 @@ static void _console_process_line(console_t* state, char* line) {
             if (nargs == 1) {
                 // All commands help
                 for (int n = 0; n < state->num_commands; n++) {
-                    printf("%-10s %s\n", state->commands[n]->name, state->commands[n]->description);
+                    sprintf(_tmp_str, "%-10s %s\n", state->commands[n]->name, state->commands[n]->description);
+                    state->put_output(_tmp_str);
                 }
             } else {
                 // Specific command help
                 bool is_handled = false;
                 for (int n = 0; n < state->num_commands; n++) {
                     if (strcmp(args[1], state->commands[n]->name) == 0) {
-                        printf("%s\n", state->commands[n]->description);
+                        sprintf(_tmp_str, "%s\n", state->commands[n]->description);
+                        state->put_output(_tmp_str);
                         is_handled = true;
                     }
                 }
@@ -100,7 +106,8 @@ static void _console_process_line(console_t* state, char* line) {
             }
         }
         if (!is_handled) {
-            printf("Unknown command: `%s`\n", args[0]);
+            sprintf(_tmp_str, "Unknown command: `%s`\n", args[0]);
+            state->put_output(_tmp_str);
         }
     }
 }
