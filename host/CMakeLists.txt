@@ -20,8 +20,8 @@ add_executable(
     ${EXECUTABLE}
     src/common/console/commands.c
     src/common/console/console.c
-    src/common/leds/leds.c
     src/common/logc/log.c
+    src/control/leds.c
     src/interface/pipe_console.c
     src/main.c
 )

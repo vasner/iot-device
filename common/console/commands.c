@@ -8,8 +8,16 @@
 static void _command_version_run(const char** args, uint8_t num_args, console_put_output_t put_output);
 
 command_t command_version = {
+    .type = CONSOLE_COMMAND_VERSION,
     .name = "version",
     .description = "Gets device version",
+    .process = _command_version_run,
+};
+
+command_t command_leds = {
+    .type = CONSOLE_COMMAND_LEDS,
+    .name = "leds",
+    .description = "Turn on/off or return LED status. `leds <red/amber/green> ?<on/off>`",
     .process = _command_version_run,
 };
 

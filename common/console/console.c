@@ -25,6 +25,7 @@ void console_init(console_t* state, console_get_input_t get_input, console_put_o
     state->get_input = get_input;
     state->put_output = put_output;
     _register_command(state, &command_version);
+    _register_command(state, &command_leds);
     put_output("\n>>> ");
 }
 
@@ -67,7 +68,8 @@ static void _console_process_line(console_t* state, char* line) {
         args[nargs] = token;
         token = strtok(NULL, " ");
         if (++nargs > _MAX_NARGS) {
-            LOG_ERROR("Number of arguments is lager than %d\n", _MAX_NARGS);
+            sprintf(_tmp_str, "Number of arguments is lager than %d\n", _MAX_NARGS);
+            state->put_output(_tmp_str);
             break;
         }
     }
@@ -91,7 +93,8 @@ static void _console_process_line(console_t* state, char* line) {
                     }
                 }
                 if (!is_handled) {
-                    printf("Unknown command: `%s`\n", args[1]);
+                    sprintf(_tmp_str, "Unknown command: `%s`\n", args[1]);
+                    state->put_output(_tmp_str);
                 }
             }
 
