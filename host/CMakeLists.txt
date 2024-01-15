@@ -27,7 +27,8 @@ add_executable(
     src/control/leds.c
     src/interface/pipe_console.c
     src/tests/console_test.cpp
+    src/tests/commands_test.cpp
     src/main.cpp
 )
 
-target_compile_options(${EXECUTABLE} PRIVATE -Wall -Wextra)
+target_compile_options(${EXECUTABLE} PRIVATE -Wall -Wextra -Werror)
