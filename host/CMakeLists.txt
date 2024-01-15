@@ -6,24 +6,29 @@ set(EXECUTABLE ${PROJECT_NAME})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
 set(CMAKE_C_STANDARD 99)
+set(CMAKE_CXX_STANDARD 11)
 
 include_directories(
     src
     src/common
+    src/common/catch2
     src/common/console
-    src/common/leds
+    src/common/control
     src/common/logc
     src/interface
+    src/tests
 )
 
 add_executable(
     ${EXECUTABLE}
     src/common/console/commands.c
     src/common/console/console.c
-    src/common/leds/leds.c
     src/common/logc/log.c
+    src/control/leds.c
     src/interface/pipe_console.c
-    src/main.c
+    src/tests/console_test.cpp
+    src/tests/commands_test.cpp
+    src/main.cpp
 )
 
-target_compile_options(${EXECUTABLE} PRIVATE -Wall -Wextra)
+target_compile_options(${EXECUTABLE} PRIVATE -Wall -Wextra -Werror)

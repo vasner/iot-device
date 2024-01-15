@@ -14,8 +14,8 @@ add_executable(
         src/main.c
         src/common/console/console.c
         src/common/console/commands.c
-        src/common/leds/leds.c
         src/common/logc/log.c
+        src/control/leds.c
         src/interface/vcom_console.c
         src/platform/at32f435_437_clock.c
         src/platform/at32f435_437_int.c
@@ -40,7 +40,7 @@ target_include_directories(${EXECUTABLE} PRIVATE
         src/interface
         src/common
         src/common/console
-        src/common/leds
+        src/common/control
         src/common/logc
         src/platform
         sdk/libraries/cmsis/cm4/device_support
