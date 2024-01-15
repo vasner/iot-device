@@ -4,6 +4,10 @@
 #ifndef LEDS_H
 #define LEDS_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -22,5 +26,9 @@ void leds_init(leds_t* state);
 void leds_on(leds_t* state, led_type_t led);
 void leds_off(leds_t* state, led_type_t led);
 bool leds_state(leds_t* state, led_type_t led);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // LEDS_H

@@ -49,7 +49,7 @@ void console_run(console_t* state) {
                     n++;
                 }
             } else {
-                if (len_line > CONSOLE_MAX_LEN_MESSAGE_BYTES) {
+                if (len_line >= CONSOLE_MAX_LEN_MESSAGE_BYTES) {
                     LOG_ERROR("Line buffer overflow\n");
                     len_line = 0;
                 }

@@ -4,6 +4,10 @@
 #ifndef CONSOLE_H
 #define CONSOLE_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdint.h>
 
 #define CONSOLE_MAX_LEN_MESSAGE_BYTES (255)
@@ -41,5 +45,9 @@ extern command_t command_leds;
 
 void console_init(console_t* state, console_get_input_t get_input, console_put_output_t put_output);
 void console_run(console_t* state);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // CONSOLE_H
