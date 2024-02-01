@@ -2,4 +2,4 @@
  * Device firmware version
  */
 
-#define VERSION ("iot-device v0.2.0")
+#define VERSION ("0.2.0")

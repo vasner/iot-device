@@ -53,10 +53,10 @@ Erase
 Running...100%
 Erase successfully!
 Download
-build/sensor.bin     4212B
+build/iot-device.bin     4212B
 Running...100%
 Verify
-build/sensor.bin     4212B
+build/iot-device.bin     4212B
 Running...100%
 Download successfully!
 ```
@@ -64,7 +64,7 @@ Download successfully!
 
 ## Connecting device via USB
 
-STS-109 is configured as CDC device (Virtual COM port).
+Device is configured as CDC device (Virtual COM port).
 
 To communicate with device any COM/Terminal application can be used, for example:
 * [minicom](https://help.ubuntu.com/community/Minicom)

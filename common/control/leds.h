@@ -25,6 +25,7 @@ typedef struct {
 void leds_init(leds_t* state);
 void leds_on(leds_t* state, led_type_t led);
 void leds_off(leds_t* state, led_type_t led);
+void leds_toggle(leds_t* state, led_type_t led);
 bool leds_state(leds_t* state, led_type_t led);
 
 #ifdef __cplusplus

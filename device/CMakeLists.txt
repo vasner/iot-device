@@ -9,7 +9,7 @@ enable_language(C ASM)
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
-add_executable(
+add_executable( 
         ${EXECUTABLE}
         src/main.c
         src/common/console/console.c
@@ -17,9 +17,8 @@ add_executable(
         src/common/logc/log.c
         src/control/leds.c
         src/interface/vcom_console.c
-        src/platform/at32f435_437_clock.c
-        src/platform/at32f435_437_int.c
-        src/platform/at32f435_437_board.c
+        src/platform/platform.c
+        src/platform/utils.c
         src/platform/vcom.c
         sdk/libraries/cmsis/cm4/device_support/startup/gcc/startup_at32f435_437.s
         sdk/libraries/cmsis/cm4/device_support/system_at32f435_437.c
@@ -36,7 +35,8 @@ add_executable(
         sdk/middlewares/usb_drivers/src/usbd_sdr.c
 )
 
-target_include_directories(${EXECUTABLE} PRIVATE
+target_include_directories(
+        ${EXECUTABLE} PRIVATE
         src/interface
         src/common
         src/common/console
@@ -46,17 +46,17 @@ target_include_directories(${EXECUTABLE} PRIVATE
         sdk/libraries/cmsis/cm4/device_support
         sdk/libraries/cmsis/cm4/core_support
         sdk/libraries/drivers/inc
-        sdk/project/at32f435_437_board
         sdk/middlewares/usb_drivers/inc
         sdk/middlewares/usbd_class/cdc
 )
 
-target_compile_definitions(${EXECUTABLE} PRIVATE
+target_compile_definitions(
+        ${EXECUTABLE} PRIVATE
         -DAT32F437ZMT7
-        -DAT_START_F437_V1
 )
 
-target_compile_options(${EXECUTABLE} PRIVATE 
+target_compile_options(
+        ${EXECUTABLE} PRIVATE 
         -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard 
         -fdata-sections -ffunction-sections 
         -Wall -Wextra 
@@ -64,17 +64,23 @@ target_compile_options(${EXECUTABLE} PRIVATE
         -g3
 )
 
-target_link_options(${EXECUTABLE} PRIVATE -T${CMAKE_SOURCE_DIR}/${LINKER_FILE}
+target_link_options(
+        ${EXECUTABLE} PRIVATE 
+        -T${CMAKE_SOURCE_DIR}/${LINKER_FILE}
         -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard
         -specs=nano.specs -specs=nosys.specs
         -Wl,-Map=${PROJECT_NAME}.map,--cref -Wl,--gc-sections -Xlinker -print-memory-usage -Xlinker
 )
 
 # Print executable size as part of the post build process
-add_custom_command(TARGET ${EXECUTABLE} POST_BUILD COMMAND ${CMAKE_SIZE_UTIL} ${EXECUTABLE})
+add_custom_command(
+        TARGET ${EXECUTABLE} POST_BUILD 
+        COMMAND ${CMAKE_SIZE_UTIL} ${EXECUTABLE}
+)
 
 # Create hex, bin and S-Record files after the build
-add_custom_command(TARGET ${EXECUTABLE} POST_BUILD
+add_custom_command(
+        TARGET ${EXECUTABLE} POST_BUILD
         COMMAND ${CMAKE_OBJCOPY} -O ihex ${EXECUTABLE} ${PROJECT_NAME}.hex
         COMMAND ${CMAKE_OBJCOPY} -O binary ${EXECUTABLE} ${PROJECT_NAME}.bin
 )

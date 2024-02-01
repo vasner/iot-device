@@ -10,8 +10,7 @@ extern "C" {
 
 #include <stddef.h>
 
-#include "at32f435_437.h"
-#include "at32f435_437_usb.h"
+#include "platform.h"
 
 #define USE_OTG_DEVICE_MODE
 #define USB_VBUS_IGNORE
