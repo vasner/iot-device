@@ -8,9 +8,6 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "at32f435_437_gpio.h"
-#include "at32f435_437_misc.h"
-#include "at32f435_437_usb.h"
 #include "cdc_class.h"
 #include "cdc_desc.h"
 #include "usb_conf.h"

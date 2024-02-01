@@ -1,6 +1,8 @@
 /**
  * Linux named pipe (aka FIFO) based console interface and commands implementation
  */
+#ifndef PIPE_CONSOLE_H
+#define PIPE_CONSOLE_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -19,3 +21,5 @@ void pipe_console_run(void);
 #ifdef __cplusplus
 }
 #endif
+
+#endif // PIPE_CONSOLE_H

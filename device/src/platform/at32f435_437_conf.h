@@ -9,8 +9,6 @@
 extern "C" {
 #endif
 
-#include "at32f435_437_crm.h"
-
 #include "platform.h"
 
 #ifdef __cplusplus

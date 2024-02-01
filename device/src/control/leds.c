@@ -6,8 +6,7 @@
 
 #include <string.h>
 
-#include "at32f435_437_gpio.h"
-#include "at32f435_437_crm.h"
+#include "platform.h"
 
 #define _LED_RED_PIN (GPIO_PINS_13)
 #define _LED_RED_GPIO (GPIOD)

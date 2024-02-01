@@ -53,10 +53,10 @@ Erase
 Running...100%
 Erase successfully!
 Download
-build/sensor.bin     4212B
+build/iot-device.bin     4212B
 Running...100%
 Verify
-build/sensor.bin     4212B
+build/iot-device.bin     4212B
 Running...100%
 Download successfully!
 ```

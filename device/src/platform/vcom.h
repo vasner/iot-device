@@ -11,7 +11,7 @@ extern "C" {
 
 #include <stdint.h>
 
-#include "at32f435_437.h"
+#include "platform.h"
 
 #define MAX_LEN_RX_MESSAGE (128)
 #define MAX_LEN_TX_MESSAGE (128)

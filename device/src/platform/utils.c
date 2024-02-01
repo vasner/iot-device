@@ -4,7 +4,7 @@
 
 #include "utils.h"
 
-#include "at32f435_437_misc.h"
+#include "platform.h"
 
 #define STEP_DELAY_MS (50)
 

@@ -1,8 +1,8 @@
 /**
  * Platform utilities
  */
-#ifndef _UTILS_H
-#define _UTILS_H
+#ifndef UTILS_H
+#define UTILS_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -19,4 +19,4 @@ void delay_sec(uint16_t sec);
 }
 #endif
 
-#endif // _UTILS_H
+#endif // UTILS_H
