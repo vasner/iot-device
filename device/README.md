@@ -64,7 +64,7 @@ Download successfully!
 
 ## Connecting device via USB
 
-STS-109 is configured as CDC device (Virtual COM port).
+Device is configured as CDC device (Virtual COM port).
 
 To communicate with device any COM/Terminal application can be used, for example:
 * [minicom](https://help.ubuntu.com/community/Minicom)

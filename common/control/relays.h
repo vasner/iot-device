@@ -10,7 +10,13 @@ extern "C" {
 
 #include <stdint.h>
 
-#define NUM_RELAYS (4)
+typedef enum {
+    RELAY_PUMP_19 = 0,
+    RELAY_ANGHAMMARAD,
+    RELAY_GLADYS,
+    RELAY_SHMATA,
+    NUM_RELAYS, // Should always be the last
+} relay_type_t;
 
 #ifdef __cplusplus
 }

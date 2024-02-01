@@ -17,9 +17,8 @@ add_executable(
         src/common/logc/log.c
         src/control/leds.c
         src/interface/vcom_console.c
-        src/platform/at32f435_437_clock.c
-        src/platform/at32f435_437_int.c
-        src/platform/at32f435_437_board.c
+        src/platform/platform.c
+        src/platform/utils.c
         src/platform/vcom.c
         sdk/libraries/cmsis/cm4/device_support/startup/gcc/startup_at32f435_437.s
         sdk/libraries/cmsis/cm4/device_support/system_at32f435_437.c
@@ -46,14 +45,12 @@ target_include_directories(${EXECUTABLE} PRIVATE
         sdk/libraries/cmsis/cm4/device_support
         sdk/libraries/cmsis/cm4/core_support
         sdk/libraries/drivers/inc
-        sdk/project/at32f435_437_board
         sdk/middlewares/usb_drivers/inc
         sdk/middlewares/usbd_class/cdc
 )
 
 target_compile_definitions(${EXECUTABLE} PRIVATE
         -DAT32F437ZMT7
-        -DAT_START_F437_V1
 )
 
 target_compile_options(${EXECUTABLE} PRIVATE 

@@ -11,7 +11,7 @@
 #include "pipe_console.h"
 #include "catch.hpp"
 
-TEST_CASE("command_unknown", "[command,unknown]") {
+TEST_CASE("command_unknown", "[console][command]") {
     pipe_console_init(false);
 
     int _tx_fifo = open(PIPE_CONSOLE_TX_FIFO_NAME, O_RDONLY);
@@ -34,7 +34,7 @@ TEST_CASE("command_unknown", "[command,unknown]") {
     pipe_console_deinit();
 }
 
-TEST_CASE("command_version", "[command,version]") {
+TEST_CASE("command_version", "[console][command]") {
     pipe_console_init(false);
 
     int _tx_fifo = open(PIPE_CONSOLE_TX_FIFO_NAME, O_RDONLY);
@@ -57,7 +57,7 @@ TEST_CASE("command_version", "[command,version]") {
     pipe_console_deinit();
 }
 
-TEST_CASE("command_help_specific", "[command,help") {
+TEST_CASE("command_help_specific", "[console][command]") {
     pipe_console_init(false);
 
     int _tx_fifo = open(PIPE_CONSOLE_TX_FIFO_NAME, O_RDONLY);

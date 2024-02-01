@@ -2,13 +2,16 @@
  * Main entry point
  */
 
-#include "at32f435_437_board.h"
-#include "at32f435_437_clock.h"
+#include <string.h>
+
 #include "at32f435_437_tmr.h"
-#include "string.h"
+#include "at32f435_437_gpio.h"
+#include "at32f435_437_misc.h"
 #include "usb_conf.h"
 #include "vcom.h"
 #include "vcom_console.h"
+#include "utils.h"
+#include "leds.h"
 
 /**
  * Set timer 1 period to 50ms.
@@ -17,18 +20,23 @@
  * [Reference Manual page page 332](https://www.arterychip.com/download/RM/RM_AT32F435_437_EN_V2.05.pdf#page=332)
  */
 #define TMR1_PERIOD_CLOCK (500 - 1)
-#define TMR1_FREQ_DIV (CRM_TMR_FREQ_HZ / 10000 - 1)
+#define TMR1_FREQ_DIV (PLATFORM_CRM_TMR_FREQ_HZ / 10000 - 1)
 
 #define TMR4_PERIOD_CLOCK (5000 - 1)
-#define TMR4_FREQ_DIV (CRM_TMR_FREQ_HZ / 10000 - 1)
+#define TMR4_FREQ_DIV (PLATFORM_CRM_TMR_FREQ_HZ / 10000 - 1)
+
+static leds_t _leds;
 
 int main(void) {
     gpio_init_type gpio_init_struct;
     tmr_output_config_type tmr_output_struct;
 
-    system_clock_config();
-    at32_board_init();
+    platform_init_system_clock();
+    delay_init();
+    leds_init(&_leds);
     vcom_init();
+
+    leds_on(&_leds, LED_GREEN);
 
     nvic_priority_group_config(NVIC_PRIORITY_GROUP_1);
     nvic_irq_enable(TMR1_CH_IRQn, 1, 0);
@@ -94,10 +102,23 @@ int main(void) {
 
     while (1) {
         // Software LED2 toggle
-        at32_led_toggle(LED2);
+        leds_toggle(&_leds, LED_RED);
         delay_ms(100);
         vcom_console_run();
     }
 
     return 0;
+}
+
+void TMR1_CH_IRQHandler(void) {
+    if (tmr_flag_get(TMR1, TMR_C4_FLAG) != RESET) {
+        tmr_flag_clear(TMR1, TMR_C4_FLAG);
+    }
+}
+
+void TMR4_GLOBAL_IRQHandler(void) {
+    if (tmr_flag_get(TMR4, TMR_C4_FLAG) != RESET) {
+        tmr_flag_clear(TMR4, TMR_C4_FLAG);
+        leds_toggle(&_leds, LED_GREEN);
+    }
 }

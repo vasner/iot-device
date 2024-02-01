@@ -6,13 +6,17 @@
 
 #include <stdint.h>
 #include <string.h>
+#include <stdio.h>
 
-#include "at32f435_437_board.h"
+#include "at32f435_437_gpio.h"
+#include "at32f435_437_misc.h"
+#include "at32f435_437_usb.h"
 #include "cdc_class.h"
 #include "cdc_desc.h"
 #include "usb_conf.h"
 #include "usb_core.h"
 #include "usbd_int.h"
+#include "utils.h"
 
 // VCOM send/receive timeout and timeout step, in us
 #define _TIMEOUT_US (1000)
@@ -20,27 +24,27 @@
 
 #define USB_ID (0)
 
-#define OTG_PIN_GPIO (GPIOA)
-#define OTG_PIN_GPIO_CLOCK (CRM_GPIOA_PERIPH_CLOCK)
+#define _OTG_PIN_GPIO (GPIOA)
+#define _OTG_PIN_GPIO_CLOCK (CRM_GPIOA_PERIPH_CLOCK)
 
-#define OTG_PIN_DP (GPIO_PINS_12)
-#define OTG_PIN_DP_SOURCE (GPIO_PINS_SOURCE12)
+#define _OTG_PIN_DP (GPIO_PINS_12)
+#define _OTG_PIN_DP_SOURCE (GPIO_PINS_SOURCE12)
 
-#define OTG_PIN_DM (GPIO_PINS_11)
-#define OTG_PIN_DM_SOURCE (GPIO_PINS_SOURCE11)
+#define _OTG_PIN_DM (GPIO_PINS_11)
+#define _OTG_PIN_DM_SOURCE (GPIO_PINS_SOURCE11)
 
-#define OTG_PIN_VBUS (GPIO_PINS_9)
-#define OTG_PIN_VBUS_SOURCE (GPIO_PINS_SOURCE9)
+#define _OTG_PIN_VBUS (GPIO_PINS_9)
+#define _OTG_PIN_VBUS_SOURCE (GPIO_PINS_SOURCE9)
 
-#define OTG_PIN_ID (GPIO_PINS_10)
-#define OTG_PIN_ID_SOURCE (GPIO_PINS_SOURCE10)
+#define _OTG_PIN_ID (GPIO_PINS_10)
+#define _OTG_PIN_ID_SOURCE (GPIO_PINS_SOURCE10)
 
-#define OTG_PIN_SOF_GPIO (GPIOA)
-#define OTG_PIN_SOF_GPIO_CLOCK (CRM_GPIOB_PERIPH_CLOCK)
-#define OTG_PIN_SOF (GPIO_PINS_8)
-#define OTG_PIN_SOF_SOURCE (GPIO_PINS_SOURCE8)
+#define _OTG_PIN_SOF_GPIO (GPIOA)
+#define _OTG_PIN_SOF_GPIO_CLOCK (CRM_GPIOB_PERIPH_CLOCK)
+#define _OTG_PIN_SOF (GPIO_PINS_8)
+#define _OTG_PIN_SOF_SOURCE (GPIO_PINS_SOURCE8)
 
-#define OTG_PIN_MUX (GPIO_MUX_10)
+#define _OTG_PIN_MUX (GPIO_MUX_10)
 
 static otg_core_type _otg_core_struct;
 static uint8_t _tx_buffer[MAX_LEN_TX_MESSAGE];
@@ -53,20 +57,20 @@ void vcom_init(void) {
     gpio_init_type gpio_init_struct;
 
     // Initialize OTG pins
-    crm_periph_clock_enable(OTG_PIN_GPIO_CLOCK, TRUE);
+    crm_periph_clock_enable(_OTG_PIN_GPIO_CLOCK, TRUE);
     gpio_default_para_init(&gpio_init_struct);
     gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;
     gpio_init_struct.gpio_out_type = GPIO_OUTPUT_PUSH_PULL;
     gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
     gpio_init_struct.gpio_pull = GPIO_PULL_NONE;
-    gpio_init_struct.gpio_pins = OTG_PIN_DP | OTG_PIN_DM;
-    gpio_init(OTG_PIN_GPIO, &gpio_init_struct);
-    gpio_pin_mux_config(OTG_PIN_GPIO, OTG_PIN_DP_SOURCE, OTG_PIN_MUX);
-    gpio_pin_mux_config(OTG_PIN_GPIO, OTG_PIN_DM_SOURCE, OTG_PIN_MUX);
-    gpio_init_struct.gpio_pins = OTG_PIN_VBUS;
+    gpio_init_struct.gpio_pins = _OTG_PIN_DP | _OTG_PIN_DM;
+    gpio_init(_OTG_PIN_GPIO, &gpio_init_struct);
+    gpio_pin_mux_config(_OTG_PIN_GPIO, _OTG_PIN_DP_SOURCE, _OTG_PIN_MUX);
+    gpio_pin_mux_config(_OTG_PIN_GPIO, _OTG_PIN_DM_SOURCE, _OTG_PIN_MUX);
+    gpio_init_struct.gpio_pins = _OTG_PIN_VBUS;
     gpio_init_struct.gpio_pull = GPIO_PULL_DOWN;
-    gpio_pin_mux_config(OTG_PIN_GPIO, OTG_PIN_VBUS_SOURCE, OTG_PIN_MUX);
-    gpio_init(OTG_PIN_GPIO, &gpio_init_struct);
+    gpio_pin_mux_config(_OTG_PIN_GPIO, _OTG_PIN_VBUS_SOURCE, _OTG_PIN_MUX);
+    gpio_init(_OTG_PIN_GPIO, &gpio_init_struct);
 
     // Set clock frequency CRM_TMR_FREQ_HZ / CRM_USB_DIV_6 = 288 / 6 = 48MHz
     crm_periph_clock_enable(CRM_OTGFS1_PERIPH_CLOCK, TRUE);

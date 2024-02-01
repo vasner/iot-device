@@ -11,7 +11,7 @@
 #include "pipe_console.h"
 #include "catch.hpp"
 
-TEST_CASE("console_parsing_clean", "[console,parsing]") {
+TEST_CASE("console_parsing_clean", "[console][parsing]") {
     pipe_console_init(false);
 
     int _tx_fifo = open(PIPE_CONSOLE_TX_FIFO_NAME, O_RDONLY);
@@ -34,7 +34,7 @@ TEST_CASE("console_parsing_clean", "[console,parsing]") {
     pipe_console_deinit();
 }
 
-TEST_CASE("console_parsing_dirty", "[console,parsing]") {
+TEST_CASE("console_parsing_dirty", "[console][parsing]") {
     pipe_console_init(false);
 
     int _tx_fifo = open(PIPE_CONSOLE_TX_FIFO_NAME, O_RDONLY);
@@ -57,7 +57,7 @@ TEST_CASE("console_parsing_dirty", "[console,parsing]") {
     pipe_console_deinit();
 }
 
-TEST_CASE("console_parsing_partial", "[console,parsing]") {
+TEST_CASE("console_parsing_partial", "[console][parsing]") {
     pipe_console_init(false);
 
     int offset = 6;
