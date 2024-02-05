@@ -15,6 +15,7 @@ add_executable(
         src/common/console/console.c
         src/common/console/commands.c
         src/common/logc/log.c
+        src/common/sensors/drivers/bmp280.c
         src/control/leds.c
         src/interface/vcom_console.c
         src/platform/platform.c
@@ -42,6 +43,8 @@ target_include_directories(
         src/common/console
         src/common/control
         src/common/logc
+        src/common/sensors
+        src/common/sensors/drivers
         src/platform
         sdk/libraries/cmsis/cm4/device_support
         sdk/libraries/cmsis/cm4/core_support
