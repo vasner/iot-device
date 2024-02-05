@@ -9,6 +9,7 @@ extern "C" {
 #endif
 
 #include <stdbool.h>
+
 #include "console.h"
 
 #define PIPE_CONSOLE_RX_FIFO_NAME ("iot_rx_fifo")
@@ -22,4 +23,4 @@ void pipe_console_run(void);
 }
 #endif
 
-#endif // PIPE_CONSOLE_H
+#endif  // PIPE_CONSOLE_H

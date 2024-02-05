@@ -28,7 +28,7 @@ void bmp280_init(bmp280_t* state, bmp280_read_reg_t read_register, bmp280_write_
  * @param[in] state BMP280 driver state
  * @return Measured pressure
  */
-uint16_t bmp280_get_pressure(bmp280_t* state) { 
+uint16_t bmp280_get_pressure(bmp280_t* state) {
     // TODO: Implement
     (void)state;
     return 0;
@@ -47,7 +47,7 @@ uint16_t bmp280_get_temperature(bmp280_t* state) {
 
 static void _reset_registers(bmp280_regs_t* regs) {
     // TODO: Implement
-    (void)regs; 
+    (void)regs;
 }
 
 static void _init_device(bmp280_t* state) {

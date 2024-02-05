@@ -15,11 +15,11 @@ typedef enum {
     RELAY_ANGHAMMARAD,
     RELAY_GLADYS,
     RELAY_SHMATA,
-    NUM_RELAYS, // Should always be the last
+    NUM_RELAYS,  // Should always be the last
 } relay_type_t;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif // RELAYS_H
+#endif  // RELAYS_H

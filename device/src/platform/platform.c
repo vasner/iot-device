@@ -6,8 +6,8 @@
 
 #include "at32f435_437.h"
 #include "at32f435_437_crm.h"
-#include "at32f435_437_pwc.h"
 #include "at32f435_437_flash.h"
+#include "at32f435_437_pwc.h"
 #include "at32f435_437_tmr.h"
 
 void platform_init_system_clock(void) {
@@ -40,23 +40,19 @@ void platform_init_system_clock(void) {
 void NMI_Handler(void) {}
 
 void HardFault_Handler(void) {
-    while (1) {
-    }
+    while (1) {}
 }
 
 void MemManage_Handler(void) {
-    while (1) {
-    }
+    while (1) {}
 }
 
 void BusFault_Handler(void) {
-    while (1) {
-    }
+    while (1) {}
 }
 
 void UsageFault_Handler(void) {
-    while (1) {
-    }
+    while (1) {}
 }
 
 void SVC_Handler(void) {}

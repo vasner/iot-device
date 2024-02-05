@@ -166,4 +166,4 @@ void TMR4_GLOBAL_IRQHandler(void);
 }
 #endif
 
-#endif // PLATFORM_H
+#endif  // PLATFORM_H

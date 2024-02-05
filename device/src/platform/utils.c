@@ -22,9 +22,7 @@ void delay_us(uint32_t nus) {
     SysTick->LOAD = (uint32_t)(nus * fac_us);
     SysTick->VAL = 0x00;
     SysTick->CTRL |= SysTick_CTRL_ENABLE_Msk;
-    do {
-        temp = SysTick->CTRL;
-    } while ((temp & 0x01) && !(temp & (1 << 16)));
+    do { temp = SysTick->CTRL; } while ((temp & 0x01) && !(temp & (1 << 16)));
 
     SysTick->CTRL &= ~SysTick_CTRL_ENABLE_Msk;
     SysTick->VAL = 0x00;
@@ -42,9 +40,7 @@ void delay_ms(uint16_t nms) {
         }
         SysTick->VAL = 0x00;
         SysTick->CTRL |= SysTick_CTRL_ENABLE_Msk;
-        do {
-            temp = SysTick->CTRL;
-        } while ((temp & 0x01) && !(temp & (1 << 16)));
+        do { temp = SysTick->CTRL; } while ((temp & 0x01) && !(temp & (1 << 16)));
 
         SysTick->CTRL &= ~SysTick_CTRL_ENABLE_Msk;
         SysTick->VAL = 0x00;
