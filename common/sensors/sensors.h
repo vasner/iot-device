@@ -20,4 +20,4 @@ typedef struct {
 }
 #endif
 
-#endif // SENSORS_H
+#endif  // SENSORS_H

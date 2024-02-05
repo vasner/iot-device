@@ -2,15 +2,16 @@
  * Console commands tests
  */
 
+#include <fcntl.h>
+#include <unistd.h>
+
 #include <cstdlib>
 #include <cstring>
-#include <unistd.h>
-#include <fcntl.h>
 
-#include "version.h"
-#include "pipe_console.h"
 #include "catch.hpp"
 #include "leds.h"
+#include "pipe_console.h"
+#include "version.h"
 
 leds_t leds;
 
@@ -21,7 +22,7 @@ TEST_CASE("command_unknown", "[console][command]") {
 
     int _tx_fifo = open(PIPE_CONSOLE_TX_FIFO_NAME, O_RDONLY);
     int _rx_fifo = open(PIPE_CONSOLE_RX_FIFO_NAME, O_WRONLY);
-    const char* command =  "bla-bla\r\n";
+    const char* command = "bla-bla\r\n";
     write(_rx_fifo, command, strlen(command));
 
     pipe_console_run();
@@ -33,7 +34,7 @@ TEST_CASE("command_unknown", "[console][command]") {
         REQUIRE(len_message > 0);
         REQUIRE(strstr(result, "Unknown command"));
     }
- 
+
     close(_rx_fifo);
     close(_tx_fifo);
     pipe_console_deinit();
@@ -44,7 +45,7 @@ TEST_CASE("command_version", "[console][command]") {
 
     int _tx_fifo = open(PIPE_CONSOLE_TX_FIFO_NAME, O_RDONLY);
     int _rx_fifo = open(PIPE_CONSOLE_RX_FIFO_NAME, O_WRONLY);
-    const char* command =  "version\r\n";
+    const char* command = "version\r\n";
     write(_rx_fifo, command, strlen(command));
 
     pipe_console_run();
@@ -56,7 +57,7 @@ TEST_CASE("command_version", "[console][command]") {
         REQUIRE(len_message > 0);
         REQUIRE(strstr(result, VERSION));
     }
- 
+
     close(_rx_fifo);
     close(_tx_fifo);
     pipe_console_deinit();
@@ -67,7 +68,7 @@ TEST_CASE("command_help_specific", "[console][command]") {
 
     int _tx_fifo = open(PIPE_CONSOLE_TX_FIFO_NAME, O_RDONLY);
     int _rx_fifo = open(PIPE_CONSOLE_RX_FIFO_NAME, O_WRONLY);
-    const char* command =  "help version\r\n";
+    const char* command = "help version\r\n";
     write(_rx_fifo, command, strlen(command));
 
     pipe_console_run();
@@ -79,7 +80,7 @@ TEST_CASE("command_help_specific", "[console][command]") {
         REQUIRE(len_message > 0);
         REQUIRE(strstr(result, "Gets device version"));
     }
- 
+
     close(_rx_fifo);
     close(_tx_fifo);
     pipe_console_deinit();
@@ -111,7 +112,7 @@ TEST_CASE("command_leds_on", "[console][command][hw]") {
             REQUIRE(strstr(tmp, "on"));
         }
     }
- 
+
     close(_rx_fifo);
     close(_tx_fifo);
     pipe_console_deinit();
@@ -143,7 +144,7 @@ TEST_CASE("command_leds_off", "[console][command][hw]") {
             REQUIRE(strstr(tmp, "off"));
         }
     }
- 
+
     close(_rx_fifo);
     close(_tx_fifo);
     pipe_console_deinit();
@@ -179,7 +180,7 @@ TEST_CASE("command_leds_toggle", "[console][command][hw]") {
             REQUIRE(strstr(tmp, "off"));
         }
     }
- 
+
     close(_rx_fifo);
     close(_tx_fifo);
     pipe_console_deinit();
@@ -211,9 +212,8 @@ TEST_CASE("command_leds_blink", "[console][command][hw]") {
             REQUIRE(strstr(tmp, "blink"));
         }
     }
- 
+
     close(_rx_fifo);
     close(_tx_fifo);
     pipe_console_deinit();
 }
-

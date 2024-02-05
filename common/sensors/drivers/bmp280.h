@@ -14,12 +14,12 @@ typedef void (*bmp280_write_reg_t)(void* ctx, uint16_t reg);
 typedef uint8_t (*bmp280_read_reg_t)(void* ctx, uint16_t reg);
 
 typedef struct {
-    uint16_t rw: 1;                 // Read/Write direction 
-    uint16_t addr: 7;               // Register 7-bit address
-    
-    // Contains the XLSB part ut[3:0] of the raw temperature measurement output data. 
+    uint16_t rw: 1;    // Read/Write direction
+    uint16_t addr: 7;  // Register 7-bit address
+
+    // Contains the XLSB part ut[3:0] of the raw temperature measurement output data.
     // Contents depend on pressure resolution, see Table 4.
-    uint16_t temp_xlsb: 4;          
+    uint16_t temp_xlsb: 4;
 
     uint16_t reserved_b4_to_b0: 4;  // Reserved. Set to 0
 } bmp280_temp_xlsb_t;
@@ -55,4 +55,4 @@ uint16_t bmp280_get_temperature(bmp280_t* state);
 }
 #endif
 
-#endif // BMP280_H
+#endif  // BMP280_H

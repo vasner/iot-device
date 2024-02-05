@@ -1,5 +1,5 @@
 /**
- * Platform configuration. 
+ * Platform configuration.
  * This file is required by SDK
  */
 #ifndef AT32F435_437_CONF_H
@@ -15,4 +15,4 @@ extern "C" {
 }
 #endif
 
-#endif // AT32F435_437_CONF_H
+#endif  // AT32F435_437_CONF_H

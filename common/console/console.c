@@ -1,11 +1,11 @@
 /**
- * Console module 
+ * Console module
  */
 
 #include "console.h"
 
-#include <stdio.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <string.h>
 
 #include "log.h"
@@ -45,9 +45,7 @@ void console_run(console_t* state) {
                 state->put_output(">>> ");
                 len_line = 0;
                 n++;
-                while (((raw_msg[n] == '\r') || (raw_msg[n] == '\n') || (raw_msg[n] == ' ')) && (n < count)) {
-                    n++;
-                }
+                while (((raw_msg[n] == '\r') || (raw_msg[n] == '\n') || (raw_msg[n] == ' ')) && (n < count)) { n++; }
             } else {
                 if (len_line >= CONSOLE_MAX_LEN_MESSAGE_BYTES) {
                     LOG_ERROR("Line buffer overflow\n");
@@ -100,7 +98,7 @@ static void _console_process_line(console_t* state, char* line) {
 
             return;
         }
-        
+
         bool is_handled = false;
         for (int n = 0; n < state->num_commands; n++) {
             if (strcmp(args[0], state->commands[n]->name) == 0) {
@@ -114,4 +112,3 @@ static void _console_process_line(console_t* state, char* line) {
         }
     }
 }
-

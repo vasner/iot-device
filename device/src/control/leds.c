@@ -13,7 +13,7 @@
  * `-1` is explained in
  * [Reference Manual page page 332](https://www.arterychip.com/download/RM/RM_AT32F435_437_EN_V2.05.pdf#page=332)
  */
-#define _LED_TIMER  (TMR4)
+#define _LED_TIMER (TMR4)
 #define _TMR_PERIOD_CLOCK (5000 - 1)
 #define _TMR_FREQ_DIV (PLATFORM_CRM_TMR_FREQ_HZ / 10000 - 1)
 
@@ -42,8 +42,16 @@ static uint16_t _pins[NUM_LEDS] = {_LED_RED_PIN, _LED_AMBER_PIN, _LED_GREEN_PIN}
 static gpio_type* _gpios[NUM_LEDS] = {_LED_RED_GPIO, _LED_AMBER_GPIO, _LED_GREEN_GPIO};
 static tmr_channel_select_type _tmr_chans[NUM_LEDS] = {_LED_RED_TMR_CHAN, _LED_AMBER_TMR_CHAN, _LED_GREEN_TMR_CHAN};
 static gpio_mux_sel_type _mux_sels[NUM_LEDS] = {_LED_RED_MUX_SEL, _LED_AMBER_MUX_SEL, _LED_GREEN_MUX_SEL};
-static crm_periph_clock_type _crm_clks[NUM_LEDS] = {_LED_RED_GPIO_CRM_CLK, _LED_AMBER_GPIO_CRM_CLK, _LED_GREEN_GPIO_CRM_CLK,};
-static gpio_pins_source_type _source_types[NUM_LEDS] = {_LED_RED_SOURCE_TYPE, _LED_AMBER_SOURCE_TYPE, _LED_GREEN_SOURCE_TYPE,};
+static crm_periph_clock_type _crm_clks[NUM_LEDS] = {
+    _LED_RED_GPIO_CRM_CLK,
+    _LED_AMBER_GPIO_CRM_CLK,
+    _LED_GREEN_GPIO_CRM_CLK,
+};
+static gpio_pins_source_type _source_types[NUM_LEDS] = {
+    _LED_RED_SOURCE_TYPE,
+    _LED_AMBER_SOURCE_TYPE,
+    _LED_GREEN_SOURCE_TYPE,
+};
 
 void _led_init(led_type_t led) {
     gpio_init_type gpio_init_struct;
@@ -82,15 +90,13 @@ void _led_blink_enable(led_type_t led) {
 
 void leds_init(leds_t* state) {
     crm_periph_clock_enable(CRM_TMR4_PERIPH_CLOCK, TRUE);
-    
+
     tmr_base_init(_LED_TIMER, _TMR_PERIOD_CLOCK, _TMR_FREQ_DIV);
     tmr_cnt_dir_set(_LED_TIMER, TMR_COUNT_UP);
     tmr_clock_source_div_set(_LED_TIMER, TMR_CLOCK_DIV1);
     tmr_overflow_event_disable(_LED_TIMER, TRUE);
-    
-    for (int led = 0; led < NUM_LEDS; led++) {
-        leds_off(state, led);
-    }
+
+    for (int led = 0; led < NUM_LEDS; led++) { leds_off(state, led); }
 
     tmr_counter_enable(_LED_TIMER, TRUE);
 }
@@ -119,6 +125,4 @@ void leds_blink(leds_t* state, led_type_t led) {
     state->led_state[led] = LED_STATE_BLINK;
 }
 
-led_state_t leds_state(leds_t* state, led_type_t led) {
-    return state->led_state[led];
-}
+led_state_t leds_state(leds_t* state, led_type_t led) { return state->led_state[led]; }

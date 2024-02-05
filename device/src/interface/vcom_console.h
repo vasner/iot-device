@@ -7,4 +7,4 @@
 void vcom_console_init(void);
 void vcom_console_run(void);
 
-#endif // VCOM_CONSOLE_H
+#endif  // VCOM_CONSOLE_H

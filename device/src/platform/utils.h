@@ -19,4 +19,4 @@ void delay_sec(uint16_t sec);
 }
 #endif
 
-#endif // UTILS_H
+#endif  // UTILS_H

@@ -2,11 +2,11 @@
  * Console commands implementation
  */
 
-#include "console.h"
-#include "version.h"
-#include "leds.h"
-
 #include <string.h>
+
+#include "console.h"
+#include "leds.h"
+#include "version.h"
 
 extern leds_t leds;
 
@@ -41,25 +41,33 @@ static void _command_leds(const char** args, uint8_t num_args, console_put_outpu
     }
 
     led_type_t led = LED_RED;
-    if (strcmp(args[0], "red") == 0) led = LED_RED;
-    else if (strcmp(args[0], "amber") == 0) led = LED_AMBER;
-    else if (strcmp(args[0], "green") == 0) led = LED_GREEN;
+    if (strcmp(args[0], "red") == 0)
+        led = LED_RED;
+    else if (strcmp(args[0], "amber") == 0)
+        led = LED_AMBER;
+    else if (strcmp(args[0], "green") == 0)
+        led = LED_GREEN;
     else {
         put_output("Wrong LED color\r\n");
         return;
     }
 
     if (num_args == 1) {
-        if (leds_state(&leds, led) == LED_STATE_ON) put_output("on\r\n");
-        else if (leds_state(&leds, led) == LED_STATE_OFF) put_output("off\r\n");
-        else put_output("blink\r\n");
+        if (leds_state(&leds, led) == LED_STATE_ON)
+            put_output("on\r\n");
+        else if (leds_state(&leds, led) == LED_STATE_OFF)
+            put_output("off\r\n");
+        else
+            put_output("blink\r\n");
     } else {
-        if (strcmp(args[1], "on") == 0) leds_on(&leds, led);
-        else if (strcmp(args[1], "off") == 0) leds_off(&leds, led);
-        else if (strcmp(args[1], "blink") == 0) leds_blink(&leds, led);
-        else if (strcmp(args[1], "toggle") == 0) leds_toggle(&leds, led);
-        else {
-            put_output("Wrong LED command\r\n");
-        }
+        if (strcmp(args[1], "on") == 0)
+            leds_on(&leds, led);
+        else if (strcmp(args[1], "off") == 0)
+            leds_off(&leds, led);
+        else if (strcmp(args[1], "blink") == 0)
+            leds_blink(&leds, led);
+        else if (strcmp(args[1], "toggle") == 0)
+            leds_toggle(&leds, led);
+        else { put_output("Wrong LED command\r\n"); }
     }
 }

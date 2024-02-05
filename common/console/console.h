@@ -1,5 +1,5 @@
 /**
- * Console module 
+ * Console module
  */
 #ifndef CONSOLE_H
 #define CONSOLE_H
@@ -19,7 +19,7 @@ typedef enum {
     CONSOLE_COMMAND_LEDS,
     CONSOLE_COMMAND_SENSORS,
     CONSOLE_COMMAND_CONTROLS,
-    NUM_CONSOLE_COMMANDS // Should always be the last
+    NUM_CONSOLE_COMMANDS  // Should always be the last
 } command_type_t;
 
 typedef uint8_t (*console_get_input_t)(char* data, uint8_t max_len);
@@ -37,7 +37,7 @@ typedef struct {
     command_t* commands[NUM_CONSOLE_COMMANDS];
     console_get_input_t get_input;
     console_put_output_t put_output;
-    uint8_t num_commands; // Number of registered commands
+    uint8_t num_commands;  // Number of registered commands
 } console_t;
 
 extern command_t command_version;
@@ -50,4 +50,4 @@ void console_run(console_t* state);
 }
 #endif
 
-#endif // CONSOLE_H
+#endif  // CONSOLE_H
