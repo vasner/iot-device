@@ -46,20 +46,26 @@ void leds_init(leds_t* state) {
 }
 
 void leds_on(leds_t* state, led_type_t led) {
-    state->led_state[led] = true;
+    state->led_state[led] = LED_STATE_ON;
     _gpios[led]->clr = _pins[led];
 }
 
 void leds_off(leds_t* state, led_type_t led) {
-    state->led_state[led] = false;
+    state->led_state[led] = LED_STATE_OFF;
     _gpios[led]->scr = _pins[led];
 }
 
 void leds_toggle(leds_t* state, led_type_t led) {
-    state->led_state[led] = !state->led_state[led];  
+    if (state->led_state[led] == LED_STATE_BLINK) return;
+    state->led_state[led] = (state->led_state[led] == LED_STATE_ON) ? LED_STATE_OFF : LED_STATE_ON;
     _gpios[led]->odt ^= _pins[led];
 }
 
-bool leds_state(leds_t* state, led_type_t led) {
+void leds_blink(leds_t* state, led_type_t led) {
+    // TODO: Implement
+    state->led_state[led] = LED_STATE_BLINK;
+}
+
+led_state_t leds_state(leds_t* state, led_type_t led) {
     return state->led_state[led];
 }

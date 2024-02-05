@@ -23,7 +23,7 @@
 #define TMR4_PERIOD_CLOCK (5000 - 1)
 #define TMR4_FREQ_DIV (PLATFORM_CRM_TMR_FREQ_HZ / 10000 - 1)
 
-static leds_t _leds;
+leds_t leds;
 
 int main(void) {
     gpio_init_type gpio_init_struct;
@@ -31,10 +31,10 @@ int main(void) {
 
     platform_init_system_clock();
     delay_init();
-    leds_init(&_leds);
+    leds_init(&leds);
     vcom_init();
 
-    leds_on(&_leds, LED_GREEN);
+    leds_on(&leds, LED_GREEN);
 
     nvic_priority_group_config(NVIC_PRIORITY_GROUP_1);
     nvic_irq_enable(TMR1_CH_IRQn, 1, 0);
@@ -100,7 +100,7 @@ int main(void) {
 
     while (1) {
         // Software LED2 toggle
-        leds_toggle(&_leds, LED_RED);
+        leds_toggle(&leds, LED_RED);
         delay_ms(100);
         vcom_console_run();
     }
@@ -117,6 +117,6 @@ void TMR1_CH_IRQHandler(void) {
 void TMR4_GLOBAL_IRQHandler(void) {
     if (tmr_flag_get(TMR4, TMR_C4_FLAG) != RESET) {
         tmr_flag_clear(TMR4, TMR_C4_FLAG);
-        leds_toggle(&_leds, LED_GREEN);
+        leds_toggle(&leds, LED_GREEN);
     }
 }
