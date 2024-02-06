@@ -71,13 +71,13 @@ static void _reset_registers(bmp280_regs_t* regs) {
     regs->press_msb.addr = 0x77;
     regs->press_msb.press_msb = 0x80;
 
-    regs->config.rw = true;
+    regs->config.rw = false;
     regs->config.addr = 0x75;
     regs->config.t_sb = BMP280_STANDBY_TIME_0P5_MS;
     regs->config.filter = BMP280_FILTER_OFF;
     regs->config.spi3w_en = false;
 
-    regs->ctrl_meas.rw = true;
+    regs->ctrl_meas.rw = false;
     regs->ctrl_meas.addr = 0x74;
     regs->ctrl_meas.osrs_t = BMP280_TEMPERATURE_OVERSAMPLING_1X;
     regs->ctrl_meas.osrs_p = BMP280_PRESSURE_OVERSAMPLING_1X;
