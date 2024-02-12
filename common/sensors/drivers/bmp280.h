@@ -10,16 +10,33 @@ extern "C" {
 
 #include <stdint.h>
 
-// TODO: Implement self test using the value
 #define BMP280_CHIP_ID (0x58)
 
 #define BMP280_CALIB_ADDR (0x25)
 #define BMP280_NUM_CALIB_REGS (26)
 #define BMP280_NUM_CONTROL_REGS (11)
-#define BMP280_NUM_REGS (BMP280_NUM_CONTROL_REGS + BMP280_NUM_CALIB_REGS)
+#define BMP280_NUM_REGS (37)
+
+#define BMP280_RESET_CODE (0xB6)
+
+#define BMP280_MIN_PRESS_PA (30000)
 
 typedef void (*bmp280_write_reg_t)(void* ctx, uint16_t reg);
 typedef uint8_t (*bmp280_read_reg_t)(void* ctx, uint16_t reg);
+
+typedef enum {
+    BMP280_REG_OFFSET_TEMP_XLSB = 0,
+    BMP280_REG_OFFSET_TEMP_LSB,
+    BMP280_REG_OFFSET_TEMP_MSB,
+    BMP280_REG_OFFSET_PRESS_XLSB,
+    BMP280_REG_OFFSET_PRESS_LSB,
+    BMP280_REG_OFFSET_PRESS_MSB,
+    BMP280_REG_OFFSET_CONFIG,
+    BMP280_REG_OFFSET_CTRL_MEAS,
+    BMP280_REG_OFFSET_STATUS,
+    BMP280_REG_OFFSET_RESET,
+    BMP280_REG_OFFSET_ID,
+} bmp280_reg_offset_t;
 
 typedef enum {
     BMP280_PRESSURE_OVERSAMPLING_1X = 0,
@@ -151,6 +168,12 @@ typedef struct {
 } bmp280_id_t;
 
 typedef struct {
+    uint16_t rw: 1;     // Read/Write direction
+    uint16_t addr: 7;   // Register 7-bit address
+    uint16_t value: 8;  // Calibration value
+} bmp280_calib_t;
+
+typedef struct {
     bmp280_temp_xlsb_t temp_xlsb;
     bmp280_temp_lsb_t temp_lsb;
     bmp280_temp_msb_t temp_msb;
@@ -162,7 +185,32 @@ typedef struct {
     bmp280_status_t status;
     bmp280_reset_t reset;
     bmp280_id_t id;
-    uint16_t calib[BMP280_NUM_CALIB_REGS];
+    bmp280_calib_t dig_t1_lsb;
+    bmp280_calib_t dig_t1_msb;
+    bmp280_calib_t dig_t2_lsb;
+    bmp280_calib_t dig_t2_msb;
+    bmp280_calib_t dig_t3_lsb;
+    bmp280_calib_t dig_t3_msb;
+    bmp280_calib_t dig_p1_lsb;
+    bmp280_calib_t dig_p1_msb;
+    bmp280_calib_t dig_p2_lsb;
+    bmp280_calib_t dig_p2_msb;
+    bmp280_calib_t dig_p3_lsb;
+    bmp280_calib_t dig_p3_msb;
+    bmp280_calib_t dig_p4_lsb;
+    bmp280_calib_t dig_p4_msb;
+    bmp280_calib_t dig_p5_lsb;
+    bmp280_calib_t dig_p5_msb;
+    bmp280_calib_t dig_p6_lsb;
+    bmp280_calib_t dig_p6_msb;
+    bmp280_calib_t dig_p7_lsb;
+    bmp280_calib_t dig_p7_msb;
+    bmp280_calib_t dig_p8_lsb;
+    bmp280_calib_t dig_p8_msb;
+    bmp280_calib_t dig_p9_lsb;
+    bmp280_calib_t dig_p9_msb;
+    bmp280_calib_t dig_pX_lsb;
+    bmp280_calib_t dig_pX_msb;
 } bmp280_regs_t;
 
 /**
@@ -176,6 +224,20 @@ typedef struct {
         uint16_t regs_u16[BMP280_NUM_REGS];
     } regs;
 
+    uint16_t dig_t1;
+    int16_t dig_t2;
+    int16_t dig_t3;
+
+    uint16_t dig_p1;
+    int16_t dig_p2;
+    int16_t dig_p3;
+    int16_t dig_p4;
+    int16_t dig_p5;
+    int16_t dig_p6;
+    int16_t dig_p7;
+    int16_t dig_p8;
+    int16_t dig_p9;
+
     bmp280_read_reg_t read_register;
     bmp280_write_reg_t write_register;
 
@@ -183,8 +245,13 @@ typedef struct {
 } bmp280_t;
 
 void bmp280_init(bmp280_t* state, bmp280_read_reg_t read_register, bmp280_write_reg_t write_register, void* ctx);
+void bmp280_set_standby_time(bmp280_t* state, bmp280_standby_time_t time);
+void bmp280_set_mode(bmp280_t* state, bmp280_mode_t mode);
+void bmp280_set_pressure_oversampling(bmp280_t* state, bmp280_pressure_oversampling_t oversampling);
+void bmp280_set_temperature_oversampling(bmp280_t* state, bmp280_temperature_oversampling_t oversampling);
+void bmp280_set_filter(bmp280_t* state, bmp280_filter_t filter);
 uint16_t bmp280_get_pressure(bmp280_t* state);
-uint16_t bmp280_get_temperature(bmp280_t* state);
+int8_t bmp280_get_temperature(bmp280_t* state);
 
 #ifdef __cplusplus
 }
