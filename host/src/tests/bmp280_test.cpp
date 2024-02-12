@@ -21,11 +21,11 @@ static uint8_t _read_register(void* ctx, uint16_t reg) {
     if (addr == regs->id.addr) {
         return BMP280_CHIP_ID;
     } else if (addr == regs->temp_xlsb.addr) {
-        return (415148 & 0xF) << 4;
+        return (519888 & 0xF) << 4;
     } else if (addr == regs->temp_lsb.addr) {
-        return ((415148 >> 4) & 0xFF);
+        return ((519888 >> 4) & 0xFF);
     } else if (addr == regs->temp_msb.addr) {
-        return ((415148 >> 12) & 0xFF);
+        return ((519888 >> 12) & 0xFF);
     } else if (addr == regs->dig_t1_lsb.addr) {
         return (27504 & 0xFF);
     } else if (addr == regs->dig_t1_msb.addr) {
