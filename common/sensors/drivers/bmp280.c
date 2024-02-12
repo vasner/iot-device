@@ -118,21 +118,25 @@ int8_t bmp280_get_temperature(bmp280_t* state) {
 static int32_t _get_press_raw(bmp280_t* state) {
     bmp280_regs_t* regs = &state->regs.regs;
     uint16_t* regs_u16 = state->regs.regs_u16;
+    uint8_t press_xlsb = state->read_register(state->ctx, regs_u16[BMP280_REG_OFFSET_PRESS_XLSB] & 0xFF00) >> 4;
     uint8_t press_lsb = state->read_register(state->ctx, regs_u16[BMP280_REG_OFFSET_PRESS_LSB] & 0xFF00);
     uint8_t press_msb = state->read_register(state->ctx, regs_u16[BMP280_REG_OFFSET_PRESS_MSB] & 0xFF00);
+    regs->press_xlsb.press_xlsb = press_xlsb;
     regs->press_lsb.press_lsb = press_lsb;
     regs->press_msb.press_msb = press_msb;
-    return (int32_t)((press_msb << 8) & press_lsb);
+    return (int32_t)((press_msb << 12) | (press_lsb << 4) | press_xlsb);
 }
 
 static int32_t _get_temp_raw(bmp280_t* state) {
     bmp280_regs_t* regs = &state->regs.regs;
     uint16_t* regs_u16 = state->regs.regs_u16;
+    uint8_t temp_xlsb = (state->read_register(state->ctx, regs_u16[BMP280_REG_OFFSET_TEMP_XLSB] & 0xFF00)) >> 4;
     uint8_t temp_lsb = state->read_register(state->ctx, regs_u16[BMP280_REG_OFFSET_TEMP_LSB] & 0xFF00);
     uint8_t temp_msb = state->read_register(state->ctx, regs_u16[BMP280_REG_OFFSET_TEMP_MSB] & 0xFF00);
+    regs->temp_xlsb.temp_xlsb = temp_xlsb;
     regs->temp_lsb.temp_lsb = temp_lsb;
     regs->temp_msb.temp_msb = temp_msb;
-    return (int32_t)(temp_msb << 8) & temp_lsb;
+    return (int32_t)((temp_msb << 12) | (temp_lsb << 4) | temp_xlsb);
 }
 
 static int32_t _press_raw_to_pa(bmp280_t* state, int32_t p_raw, int32_t t_fine) {
@@ -280,22 +284,22 @@ static void _sync_registers(bmp280_t* state) {
         // If register is read-only
         if (regs_u16[n] & 0x8000) {
             uint8_t value = state->read_register(state->ctx, regs_u16[n] & 0xFF00);
-            regs_u16[n] &= 0xFF;
+            regs_u16[n] &= 0xFF00;
             regs_u16[n] |= value;
         }
     }
 
-    state->dig_t1 = (regs->dig_t1_msb.value << 8) & regs->dig_t1_lsb.value;
-    state->dig_t2 = (regs->dig_t2_msb.value << 8) & regs->dig_t2_lsb.value;
-    state->dig_t3 = (regs->dig_t3_msb.value << 8) & regs->dig_t3_lsb.value;
+    state->dig_t1 = (regs->dig_t1_msb.value << 8) | regs->dig_t1_lsb.value;
+    state->dig_t2 = (regs->dig_t2_msb.value << 8) | regs->dig_t2_lsb.value;
+    state->dig_t3 = (regs->dig_t3_msb.value << 8) | regs->dig_t3_lsb.value;
 
-    state->dig_p1 = (regs->dig_p1_msb.value << 8) & regs->dig_p1_lsb.value;
-    state->dig_p2 = (regs->dig_p2_msb.value << 8) & regs->dig_p2_lsb.value;
-    state->dig_p3 = (regs->dig_p3_msb.value << 8) & regs->dig_p3_lsb.value;
-    state->dig_p4 = (regs->dig_p4_msb.value << 8) & regs->dig_p4_lsb.value;
-    state->dig_p5 = (regs->dig_p5_msb.value << 8) & regs->dig_p5_lsb.value;
-    state->dig_p6 = (regs->dig_p6_msb.value << 8) & regs->dig_p6_lsb.value;
-    state->dig_p7 = (regs->dig_p7_msb.value << 8) & regs->dig_p7_lsb.value;
-    state->dig_p8 = (regs->dig_p8_msb.value << 8) & regs->dig_p8_lsb.value;
-    state->dig_p9 = (regs->dig_p9_msb.value << 8) & regs->dig_p9_lsb.value;
+    state->dig_p1 = (regs->dig_p1_msb.value << 8) | regs->dig_p1_lsb.value;
+    state->dig_p2 = (regs->dig_p2_msb.value << 8) | regs->dig_p2_lsb.value;
+    state->dig_p3 = (regs->dig_p3_msb.value << 8) | regs->dig_p3_lsb.value;
+    state->dig_p4 = (regs->dig_p4_msb.value << 8) | regs->dig_p4_lsb.value;
+    state->dig_p5 = (regs->dig_p5_msb.value << 8) | regs->dig_p5_lsb.value;
+    state->dig_p6 = (regs->dig_p6_msb.value << 8) | regs->dig_p6_lsb.value;
+    state->dig_p7 = (regs->dig_p7_msb.value << 8) | regs->dig_p7_lsb.value;
+    state->dig_p8 = (regs->dig_p8_msb.value << 8) | regs->dig_p8_lsb.value;
+    state->dig_p9 = (regs->dig_p9_msb.value << 8) | regs->dig_p9_lsb.value;
 }
