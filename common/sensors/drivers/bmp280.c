@@ -90,8 +90,8 @@ void bmp280_set_filter(bmp280_t* state, bmp280_filter_t filter) {
 void bmp280_get_measurement(bmp280_t* state, uint16_t* press, int8_t* temp) {
     int32_t t_fine = _temp_raw_to_fine(state, _get_temp_raw(state));
     int32_t p_pa = _press_raw_to_pa(state, _get_press_raw(state), t_fine);
-    *press = (uint16_t)sc_mul_s32(p_pa, MATH_CONST_S32(0.00750062f, 28), 28);
-    *temp = (int8_t)(((t_fine * 5 + 128) >> 8) / 100);
+    *press = (uint16_t)sc_mul_round_s32(p_pa, MATH_CONST_S32(0.00750062f, 28), 28);
+    *temp = (int8_t)((((t_fine * 5 + 128) >> 8) + 50) / 100);
     // TODO: Optimize formula or output format to avoid division by 100
 }
 
@@ -102,7 +102,7 @@ void bmp280_get_measurement(bmp280_t* state, uint16_t* press, int8_t* temp) {
  */
 uint16_t bmp280_get_pressure(bmp280_t* state) {
     int32_t p_pa = _press_raw_to_pa(state, _get_press_raw(state), _temp_raw_to_fine(state, _get_temp_raw(state)));
-    return (uint16_t)sc_mul_s32(p_pa, MATH_CONST_S32(0.00750062f, 28), 28);
+    return (uint16_t)sc_mul_round_s32(p_pa, MATH_CONST_S32(0.00750062f, 28), 28);
 }
 
 /**
@@ -112,7 +112,7 @@ uint16_t bmp280_get_pressure(bmp280_t* state) {
  */
 int8_t bmp280_get_temperature(bmp280_t* state) {
     // TODO: Optimize formula or output format to avoid division by 100
-    return (int8_t)(((_temp_raw_to_fine(state, _get_temp_raw(state)) * 5 + 128) >> 8) / 100);
+    return (int8_t)((((_temp_raw_to_fine(state, _get_temp_raw(state)) * 5 + 128) >> 8) + 50) / 100);
 }
 
 static int32_t _get_press_raw(bmp280_t* state) {
@@ -151,6 +151,7 @@ static int32_t _press_raw_to_pa(bmp280_t* state, int32_t p_raw, int32_t t_fine) 
     int64_t dig_p8 = state->dig_p8;
     int64_t dig_p9 = state->dig_p9;
 
+    /// Following conversion is according to sensor data-sheet
     v1 = (int64_t)t_fine - 128000;
     v2 = v1 * v1 * dig_p6;
     v2 = v2 + ((v1 * dig_p5) << 17);
@@ -172,6 +173,7 @@ static int32_t _temp_raw_to_fine(bmp280_t* state, int32_t t_raw) {
     int32_t dig_t2 = state->dig_t2;
     int32_t dig_t3 = state->dig_t3;
 
+    /// Following conversion is according to sensor data-sheet
     v1 = ((((t_raw >> 3) - (dig_t1 << 1))) * dig_t2) >> 11;
     v2 = (((((t_raw >> 4) - dig_t1) * ((t_raw >> 4) - dig_t1)) >> 12) * dig_t3) >> 14;
 
@@ -264,7 +266,7 @@ static void _reset_registers(bmp280_regs_t* regs) {
     regs->dig_p8_lsb.rw = true;
     regs->dig_p8_lsb.addr = 0x1C;
     regs->dig_p8_msb.rw = true;
-    regs->dig_p8_lsb.addr = 0x1D;
+    regs->dig_p8_msb.addr = 0x1D;
     regs->dig_p9_lsb.rw = true;
     regs->dig_p9_lsb.addr = 0x1E;
     regs->dig_p9_msb.rw = true;
