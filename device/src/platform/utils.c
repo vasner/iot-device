@@ -1,5 +1,5 @@
 /**
- * Platform utilities
+ * Utilities
  */
 
 #include "utils.h"

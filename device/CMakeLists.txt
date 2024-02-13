@@ -43,8 +43,10 @@ target_include_directories(
         src/common/console
         src/common/control
         src/common/logc
+        src/common/math
         src/common/sensors
         src/common/sensors/drivers
+        src/common/utils
         src/platform
         sdk/libraries/cmsis/cm4/device_support
         sdk/libraries/cmsis/cm4/core_support

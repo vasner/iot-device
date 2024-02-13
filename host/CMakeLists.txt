@@ -17,6 +17,8 @@ include_directories(
     src/common/sensors
     src/common/sensors/drivers
     src/common/logc
+    src/common/utils
+    src/common/math
     src/interface
     src/tests
 )
@@ -29,8 +31,10 @@ add_executable(
     src/common/sensors/drivers/bmp280.c
     src/control/leds.c
     src/interface/pipe_console.c
+    src/tests/bmp280_test.cpp
     src/tests/console_test.cpp
     src/tests/commands_test.cpp
+    src/utils/utils.c
     src/main.cpp
 )
 

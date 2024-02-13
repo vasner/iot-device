@@ -24,7 +24,7 @@ static int _tx_fifo = -1;
 
 static void _console_put_output(const char* data) {
     if (_is_duplicate_tx_to_stdout) { printf("%s", data); }
-    if (_rx_fifo < 0) return;
+    if (_tx_fifo < 0) return;
     write(_tx_fifo, data, strlen(data));
 }
 
