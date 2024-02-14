@@ -28,6 +28,7 @@ add_executable(
         sdk/libraries/drivers/src/at32f435_437_crm.c
         sdk/libraries/drivers/src/at32f435_437_gpio.c
         sdk/libraries/drivers/src/at32f435_437_misc.c
+        sdk/libraries/drivers/src/at32f435_437_spi.c
         sdk/libraries/drivers/src/at32f435_437_tmr.c
         sdk/libraries/drivers/src/at32f435_437_usb.c
         sdk/middlewares/usbd_class/cdc/cdc_class.c

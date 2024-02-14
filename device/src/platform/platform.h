@@ -20,7 +20,7 @@ extern "C" {
 // #define CAN_MODULE_ENABLED
 // #define ADC_MODULE_ENABLED
 // #define DAC_MODULE_ENABLED
-// #define SPI_MODULE_ENABLED
+#define SPI_MODULE_ENABLED
 // #define EDMA_MODULE_ENABLED
 // #define DMA_MODULE_ENABLED
 // #define DEBUG_MODULE_ENABLED
