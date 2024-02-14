@@ -13,8 +13,6 @@ extern "C" {
 #define BMP280_CHIP_ID (0x58)
 
 #define BMP280_CALIB_ADDR (0x25)
-#define BMP280_NUM_CALIB_REGS (26)
-#define BMP280_NUM_CONTROL_REGS (11)
 #define BMP280_NUM_REGS (37)
 
 #define BMP280_RESET_CODE (0xB6)

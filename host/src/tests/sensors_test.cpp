@@ -2,18 +2,19 @@
  * Tests for BMP280, Digital Pressure Sensor, Bosch Sensortec
  */
 
-#include "bmp280.h"
+#include "sensors.h"
 
+#include "bmp280.h"
 #include "catch.hpp"
 
 static bmp280_t _bmp280;
 
-static void _write_register(void* ctx, uint16_t reg) {
+static void _bmp280_write_reg(void* ctx, uint16_t reg) {
     (void)ctx;
     (void)reg;
 }
 
-static uint8_t _read_register(void* ctx, uint16_t reg) {
+static uint8_t _bmp280_read_reg(void* ctx, uint16_t reg) {
     bmp280_regs_t* regs = (bmp280_regs_t*)ctx;
 
     // Mock real data in required registers.
@@ -86,22 +87,32 @@ static uint8_t _read_register(void* ctx, uint16_t reg) {
 }
 
 TEST_CASE("bmp280_temperature", "[sensors][bmp280][hw]") {
-    bmp280_init(&_bmp280, _read_register, _write_register, &_bmp280.regs.regs);
+    bmp280_init(&_bmp280, _bmp280_read_reg, _bmp280_write_reg, &_bmp280.regs.regs);
     int8_t temp = bmp280_get_temperature(&_bmp280);
     REQUIRE(temp == 25);
 }
 
 TEST_CASE("bmp280_pressure", "[sensors][bmp280][hw]") {
-    bmp280_init(&_bmp280, _read_register, _write_register, &_bmp280.regs.regs);
+    bmp280_init(&_bmp280, _bmp280_read_reg, _bmp280_write_reg, &_bmp280.regs.regs);
     uint16_t press = bmp280_get_pressure(&_bmp280);
     REQUIRE(press == 754);
 }
 
 TEST_CASE("bmp280_measurement", "[sensors][bmp280][hw]") {
-    bmp280_init(&_bmp280, _read_register, _write_register, &_bmp280.regs.regs);
+    bmp280_init(&_bmp280, _bmp280_read_reg, _bmp280_write_reg, &_bmp280.regs.regs);
     int8_t temp = 0;
     uint16_t press = 0;
     bmp280_get_measurement(&_bmp280, &press, &temp);
     REQUIRE(temp == 25);
     REQUIRE(press == 754);
+}
+
+TEST_CASE("sensors", "[sensors][hw]") {
+    sensors_t sensors;
+    sensors_data_t data;
+    sensors_init(&sensors, _bmp280_read_reg, _bmp280_write_reg, &_bmp280.regs.regs);
+    sensors_measure(&sensors, &data);
+    REQUIRE(data.temperature == 25);
+    REQUIRE(data.pressure == 754);
+    REQUIRE(data.humidity == 0);
 }
