@@ -13,6 +13,9 @@ void bmp280_spi_init(void) {
 
     gpio_init_type gpio_init_struct;
     gpio_default_para_init(&gpio_init_struct);
+    gpio_init_struct.gpio_out_type = GPIO_OUTPUT_PUSH_PULL;
+    gpio_init_struct.gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;
+    gpio_init_struct.gpio_mode = GPIO_MODE_MUX;
 
     // SPI2 SCK
     gpio_init_struct.gpio_pull = GPIO_PULL_UP;

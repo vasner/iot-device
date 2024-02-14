@@ -19,10 +19,10 @@ int main(void) {
     platform_init_system_clock();
     delay_init();
     leds_init(&leds);
+    leds_on(&leds, LED_AMBER);
+
     bmp280_spi_init();
     sensors_init(&sensors, bmp280_spi_read_reg, bmp280_spi_write_reg, NULL);
-
-    leds_on(&leds, LED_AMBER);
 
     vcom_init();
     vcom_console_init();
