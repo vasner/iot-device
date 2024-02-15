@@ -138,7 +138,7 @@ typedef struct {
     // and before every conversion.
     uint16_t im_update: 1;
 
-    uint16_t reserved_b2_to_b1: 4;  // Reserved. Set to 0
+    uint16_t reserved_b2_to_b1: 2;  // Reserved. Set to 0
 
     // Automatically set to `1` whenever a conversion is running and back to `0` when
     // the results have been transferred to the data registers

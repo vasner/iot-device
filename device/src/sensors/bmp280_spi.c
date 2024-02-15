@@ -6,6 +6,9 @@
 
 #include "platform.h"
 
+static inline void _cs_hi(void) { GPIOD->scr = GPIO_PINS_0; }
+static inline void _cs_low(void) { GPIOD->clr = GPIO_PINS_0; }
+
 void bmp280_spi_init(void) {
     crm_periph_clock_enable(CRM_SPI2_PERIPH_CLOCK, TRUE);
     crm_periph_clock_enable(CRM_GPIOC_PERIPH_CLOCK, TRUE);
@@ -35,11 +38,13 @@ void bmp280_spi_init(void) {
     gpio_init(GPIOD, &gpio_init_struct);
     gpio_pin_mux_config(GPIOD, GPIO_PINS_SOURCE4, GPIO_MUX_6);
 
-    // SPI2 CS
-    gpio_init_struct.gpio_pull = GPIO_PULL_UP;
+    // CS is software based
+    gpio_init_struct.gpio_pull = GPIO_PULL_DOWN;
     gpio_init_struct.gpio_pins = GPIO_PINS_0;
+    gpio_init_struct.gpio_mode = GPIO_MODE_OUTPUT;
     gpio_init(GPIOD, &gpio_init_struct);
     gpio_pin_mux_config(GPIOD, GPIO_PINS_SOURCE0, GPIO_MUX_7);
+    _cs_hi();
 
     spi_init_type spi_init_struct;
     spi_default_para_init(&spi_init_struct);
@@ -50,23 +55,19 @@ void bmp280_spi_init(void) {
     spi_init_struct.frame_bit_num = SPI_FRAME_16BIT;
     spi_init_struct.clock_polarity = SPI_CLOCK_POLARITY_HIGH;
     spi_init_struct.clock_phase = SPI_CLOCK_PHASE_2EDGE;
-    spi_init_struct.cs_mode_selection = SPI_CS_HARDWARE_MODE;
+    spi_init_struct.cs_mode_selection = SPI_CS_SOFTWARE_MODE;
     spi_init(SPI2, &spi_init_struct);
     spi_enable(SPI2, TRUE);
 }
 
-void bmp280_spi_write_reg(void* ctx, uint16_t reg) {
-    (void)ctx;
-    while (spi_i2s_flag_get(SPI2, SPI_I2S_TDBE_FLAG) == RESET) {}
-    spi_i2s_data_transmit(SPI2, reg);
-}
+void bmp280_spi_write_reg(void* ctx, uint16_t reg) { bmp280_spi_read_reg(ctx, reg); }
 
 uint8_t bmp280_spi_read_reg(void* ctx, uint16_t reg) {
     (void)ctx;
     while (spi_i2s_flag_get(SPI2, SPI_I2S_TDBE_FLAG) == RESET) {}
+    _cs_low();
     spi_i2s_data_transmit(SPI2, reg);
     while (spi_i2s_flag_get(SPI2, SPI_I2S_RDBF_FLAG) == RESET) {}
-    // TODO: Compact after debug
-    uint16_t result = spi_i2s_data_receive(SPI2);
-    return (uint8_t)result;
+    _cs_hi();
+    return (uint8_t)spi_i2s_data_receive(SPI2);
 }
