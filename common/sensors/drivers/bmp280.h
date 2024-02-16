@@ -79,7 +79,7 @@ typedef enum {
 } bmp280_filter_t;
 
 typedef struct {
-    uint16_t reserved_b4_to_b0: 4;  // Reserved. Set to 0
+    uint16_t reserved_b3_to_b0: 4;  // Reserved. Set to 0
     uint16_t temp_xlsb: 4;          // Contains the XLSB part ut[3:0] of the raw temperature measurement output data
     uint16_t addr: 7;               // Register 7-bit address
     uint16_t rw: 1;                 // Read/Write direction
@@ -98,7 +98,7 @@ typedef struct {
 } bmp280_temp_msb_t;
 
 typedef struct {
-    uint16_t reserved_b4_to_b0: 4;  // Reserved. Set to 0
+    uint16_t reserved_b3_to_b0: 4;  // Reserved. Set to 0
     uint16_t press_xlsb: 4;         // Contains the XLSB part up[3:0] of the raw pressure measurement output data
     uint16_t addr: 7;               // Register 7-bit address
     uint16_t rw: 1;                 // Read/Write direction

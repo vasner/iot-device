@@ -171,7 +171,12 @@ static int32_t _press_raw_to_pa(bmp280_t* state, int32_t p_raw, int32_t t_fine) 
 
 static int32_t _temp_raw_to_fine(bmp280_t* state, int32_t t_raw) {
     int32_t v1, v2;
+#if 0
     int32_t dig_t1 = state->dig_t1;
+#else
+    // TODO: Temporary hack for uncalibrated or broken sensor, remove after debug
+    int32_t dig_t1 = 28000;
+#endif
     int32_t dig_t2 = state->dig_t2;
     int32_t dig_t3 = state->dig_t3;
 
