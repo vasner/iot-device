@@ -99,7 +99,8 @@ TEST_CASE("bmp280_pressure", "[sensors][bmp280][hw]") {
 }
 
 TEST_CASE("bmp280_measurement", "[sensors][bmp280][hw]") {
-    bmp280_init(&_bmp280, _bmp280_read_reg, _bmp280_write_reg, &_bmp280.regs.regs);
+    bool is_success = bmp280_init(&_bmp280, _bmp280_read_reg, _bmp280_write_reg, &_bmp280.regs.regs);
+    REQUIRE(is_success);
     int8_t temp = 0;
     uint16_t press = 0;
     bmp280_get_measurement(&_bmp280, &press, &temp);
@@ -110,7 +111,8 @@ TEST_CASE("bmp280_measurement", "[sensors][bmp280][hw]") {
 TEST_CASE("sensors", "[sensors][hw]") {
     sensors_t sensors;
     sensors_data_t data;
-    sensors_init(&sensors, _bmp280_read_reg, _bmp280_write_reg, &_bmp280.regs.regs);
+    bool is_success = sensors_init(&sensors, _bmp280_read_reg, _bmp280_write_reg, &_bmp280.regs.regs);
+    REQUIRE(is_success);
     sensors_measure(&sensors, &data);
     REQUIRE(data.temperature == 25);
     REQUIRE(data.pressure == 754);

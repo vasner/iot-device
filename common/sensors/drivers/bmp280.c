@@ -4,7 +4,6 @@
 
 #include "bmp280.h"
 
-#include <stdbool.h>
 #include <string.h>
 
 #include "log.h"
@@ -25,8 +24,9 @@ static int32_t _temp_raw_to_fine(bmp280_t* state, int32_t t_raw);
  * @param[in] write_register Write register callback, set to NULL if unused
  * @param[in] ctx External context. It is passed as parameter into handlers and callbacks functions,
  *                set to NULL if unused
+ * @return `true` if initialization was successful, `false` otherwise
  */
-void bmp280_init(bmp280_t* state, bmp280_read_reg_t read_register, bmp280_write_reg_t write_register, void* ctx) {
+bool bmp280_init(bmp280_t* state, bmp280_read_reg_t read_register, bmp280_write_reg_t write_register, void* ctx) {
     bmp280_regs_t* regs = &state->regs.regs;
 
     state->read_register = read_register;
@@ -43,7 +43,9 @@ void bmp280_init(bmp280_t* state, bmp280_read_reg_t read_register, bmp280_write_
 
     _sync_registers(state);
 
-    if (regs->id.chip_id != BMP280_CHIP_ID) { LOG_ERROR("Wrong BMP280 chip id `%2X`", regs->id.chip_id); }
+    bool is_success = regs->id.chip_id == BMP280_CHIP_ID;
+    if (!is_success) { LOG_ERROR("Wrong BMP280 chip id `%2X`", regs->id.chip_id); }
+    return is_success;
 }
 
 void bmp280_set_standby_time(bmp280_t* state, bmp280_standby_time_t time) {

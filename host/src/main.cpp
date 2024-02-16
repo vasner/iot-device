@@ -6,7 +6,7 @@
 #include "catch.hpp"
 #include "log.h"
 
-#define LOG_LEVEL (LOG_LEVEL_DEBUG)
+#define LOG_LEVEL (LOG_LEVEL_WARN)
 
 int main(int argc, char* argv[]) {
     log_set_level(LOG_LEVEL);

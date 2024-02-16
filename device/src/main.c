@@ -13,7 +13,7 @@
 #include "vcom.h"
 #include "vcom_console.h"
 
-#define LOG_LEVEL (LOG_LEVEL_DEBUG)
+#define LOG_LEVEL (LOG_LEVEL_WARN)
 
 leds_t leds;
 sensors_t sensors;
