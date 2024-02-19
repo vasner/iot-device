@@ -29,6 +29,7 @@ bool sensors_init(
 );
 void sensors_measure(sensors_t* state, sensors_data_t* data);
 bool sensors_get_status(sensors_t* state);
+void sensors_to_json(sensors_data_t* data, char* json);
 
 #ifdef __cplusplus
 }

@@ -46,6 +46,7 @@ extern command_t command_version;
 extern command_t command_leds;
 extern command_t command_log_level;
 extern command_t command_sensors;
+extern command_t command_sample;
 
 void console_init(console_t* state, console_get_input_t get_input, console_put_output_t put_output);
 void console_run(console_t* state);

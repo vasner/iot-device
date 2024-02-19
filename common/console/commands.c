@@ -6,6 +6,7 @@
 #include <string.h>
 
 #include "console.h"
+#include "controls.h"
 #include "leds.h"
 #include "log.h"
 #include "sensors.h"
@@ -18,6 +19,7 @@ static void _command_version_run(const char** args, uint8_t num_args, void* ctx)
 static void _command_leds(const char** args, uint8_t num_args, void* ctx);
 static void _command_log_level(const char** args, uint8_t num_args, void* ctx);
 static void _command_sensors(const char** args, uint8_t num_args, void* ctx);
+static void _command_sample(const char** args, uint8_t num_args, void* ctx);
 
 command_t command_version = {
     .type = CONSOLE_COMMAND_VERSION,
@@ -45,6 +47,13 @@ command_t command_sensors = {
     .name = "sensors",
     .description = "Performs sensors measurement and returns result. `sensors ?<temp/press/hum>`",
     .process = _command_sensors,
+};
+
+command_t command_sample = {
+    .type = CONSOLE_COMMAND_SAMPLE,
+    .name = "sample",
+    .description = "Returns json string with sensors measurement and controls data",
+    .process = _command_sample,
 };
 
 static void _error_wrong_number_of_arguments(console_put_output_t put_output) {
@@ -178,4 +187,33 @@ static void _command_sensors(const char** args, uint8_t num_args, void* ctx) {
     }
 
     put_output(console->tmp);
+}
+
+static void _command_sample(const char** args, uint8_t num_args, void* ctx) {
+    (void)args;
+    console_t* console = (console_t*)ctx;
+    console_put_output_t put_output = console->put_output;
+
+    if (num_args != 0) {
+        _error_wrong_number_of_arguments(put_output);
+        return;
+    }
+
+    sensors_data_t sensors_data;
+    if (!sensors_get_status(&sensors)) {
+        put_output("Sensors module is not initialized");
+        return;
+    }
+
+    sensors_measure(&sensors, &sensors_data);
+
+    put_output("{");
+    put_output("\"sensors\":");
+    sensors_to_json(&sensors_data, console->tmp);
+    put_output(console->tmp);
+    put_output(",");
+    put_output("\"controls\":");
+    controls_to_json(&leds, console->tmp);
+    put_output(console->tmp);
+    put_output("}\r\n");
 }

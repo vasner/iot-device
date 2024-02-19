@@ -26,6 +26,7 @@ void console_init(console_t* state, console_get_input_t get_input, console_put_o
     _register_command(state, &command_leds);
     _register_command(state, &command_log_level);
     _register_command(state, &command_sensors);
+    _register_command(state, &command_sample);
     put_output("\n>>> ");
 }
 

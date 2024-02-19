@@ -12,9 +12,8 @@ extern "C" {
 
 typedef enum {
     RELAY_PUMP_19 = 0,
-    RELAY_ANGHAMMARAD,
-    RELAY_GLADYS,
-    RELAY_SHMATA,
+    RELAY_PUMP_FILTER,
+    RELAY_PUMP_WELL,
     NUM_RELAYS,  // Should always be the last
 } relay_type_t;
 

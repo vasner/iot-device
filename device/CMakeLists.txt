@@ -12,6 +12,7 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 add_executable( 
         ${EXECUTABLE}
         src/main.c
+        src/common/control/controls.c
         src/common/console/console.c
         src/common/console/commands.c
         src/common/logc/log.c

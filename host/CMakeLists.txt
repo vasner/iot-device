@@ -27,6 +27,7 @@ add_executable(
     ${EXECUTABLE}
     src/common/console/commands.c
     src/common/console/console.c
+    src/common/control/controls.c
     src/common/logc/log.c
     src/common/sensors/sensors.c
     src/common/sensors/drivers/bmp280.c
