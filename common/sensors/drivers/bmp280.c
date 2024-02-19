@@ -43,10 +43,12 @@ bool bmp280_init(bmp280_t* state, bmp280_read_reg_t read_register, bmp280_write_
 
     _sync_registers(state);
 
-    bool is_success = regs->id.chip_id == BMP280_CHIP_ID;
-    if (!is_success) { LOG_ERROR("Wrong BMP280 chip id `%2X`", regs->id.chip_id); }
-    return is_success;
+    state->status = regs->id.chip_id == BMP280_CHIP_ID;
+    if (!state->status) { LOG_ERROR("Wrong BMP280 chip id `%2X`", regs->id.chip_id); }
+    return state->status;
 }
+
+bool bmp280_get_status(bmp280_t* state) { return state->status; }
 
 void bmp280_set_standby_time(bmp280_t* state, bmp280_standby_time_t time) {
     bmp280_regs_t* regs = &state->regs.regs;
@@ -171,12 +173,7 @@ static int32_t _press_raw_to_pa(bmp280_t* state, int32_t p_raw, int32_t t_fine) 
 
 static int32_t _temp_raw_to_fine(bmp280_t* state, int32_t t_raw) {
     int32_t v1, v2;
-#if 0
     int32_t dig_t1 = state->dig_t1;
-#else
-    // TODO: Temporary hack for uncalibrated or broken sensor, remove after debug
-    int32_t dig_t1 = 28000;
-#endif
     int32_t dig_t2 = state->dig_t2;
     int32_t dig_t3 = state->dig_t3;
 

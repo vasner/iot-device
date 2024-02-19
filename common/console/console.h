@@ -10,7 +10,7 @@ extern "C" {
 
 #include <stdint.h>
 
-#define CONSOLE_MAX_LEN_MESSAGE_BYTES (255)
+#define CONSOLE_MAX_LEN_MESSAGE_BYTES (128)
 
 typedef enum {
     CONSOLE_COMMAND_HELP = 0,
@@ -45,6 +45,7 @@ typedef struct {
 extern command_t command_version;
 extern command_t command_leds;
 extern command_t command_log_level;
+extern command_t command_sensors;
 
 void console_init(console_t* state, console_get_input_t get_input, console_put_output_t put_output);
 void console_run(console_t* state);

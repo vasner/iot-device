@@ -36,10 +36,7 @@ int main(void) {
     leds_blink(&leds, LED_AMBER);
     leds_on(&leds, LED_GREEN);
 
-    while (1) {
-        vcom_console_run();
-        // TODO: Turn on sleep mode here
-    }
+    while (1) { vcom_console_run(); }
 
     return 0;
 }

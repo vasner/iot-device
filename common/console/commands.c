@@ -8,13 +8,16 @@
 #include "console.h"
 #include "leds.h"
 #include "log.h"
+#include "sensors.h"
 #include "version.h"
 
 extern leds_t leds;
+extern sensors_t sensors;
 
 static void _command_version_run(const char** args, uint8_t num_args, void* ctx);
 static void _command_leds(const char** args, uint8_t num_args, void* ctx);
 static void _command_log_level(const char** args, uint8_t num_args, void* ctx);
+static void _command_sensors(const char** args, uint8_t num_args, void* ctx);
 
 command_t command_version = {
     .type = CONSOLE_COMMAND_VERSION,
@@ -26,7 +29,7 @@ command_t command_version = {
 command_t command_leds = {
     .type = CONSOLE_COMMAND_LEDS,
     .name = "leds",
-    .description = "Turns on/off or return LED(s) state. `leds ?<red/amber/green> ?<on/off/blink/toggle>` ",
+    .description = "Turns on/off or return LED(s) state. `leds ?<red/amber/green> ?<on/off/blink/toggle>`",
     .process = _command_leds,
 };
 
@@ -35,6 +38,13 @@ command_t command_log_level = {
     .name = "log_level",
     .description = "Sets/gets log level, default is `warn`. `log_level ?<trace/debug/info/warn/error/fatal>`",
     .process = _command_log_level,
+};
+
+command_t command_sensors = {
+    .type = CONSOLE_COMMAND_SENSORS,
+    .name = "sensors",
+    .description = "Performs sensors measurement and returns result. `sensors ?<temp/press/hum>`",
+    .process = _command_sensors,
 };
 
 static void _error_wrong_number_of_arguments(console_put_output_t put_output) {
@@ -131,4 +141,41 @@ static void _command_log_level(const char** args, uint8_t num_args, void* ctx) {
     } else {
         _error_wrong_number_of_arguments(put_output);
     }
+}
+
+static void _command_sensors(const char** args, uint8_t num_args, void* ctx) {
+    console_t* console = (console_t*)ctx;
+    console_put_output_t put_output = console->put_output;
+
+    if (num_args > 1) {
+        _error_wrong_number_of_arguments(put_output);
+        return;
+    }
+
+    sensors_data_t sensors_data;
+    if (!sensors_get_status(&sensors)) {
+        put_output("Sensors module is not initialized");
+        return;
+    }
+
+    sensors_measure(&sensors, &sensors_data);
+
+    if (num_args == 0) {
+        sprintf(
+            console->tmp, "temperature %d [%c%cC], humidity %d [%%], pressure %d [mmHg]\r\n", sensors_data.temperature,
+            0xC2, 0xB0, sensors_data.humidity, sensors_data.pressure
+        );
+    } else {
+        if (strcmp(args[0], "temp") == 0) {
+            sprintf(console->tmp, "%d [%c%cC]\r\n", sensors_data.temperature, 0xC2, 0xB0);
+        } else if (strcmp(args[0], "hum") == 0) {
+            sprintf(console->tmp, "%d [%%]\r\n", sensors_data.humidity);
+        } else if (strcmp(args[0], "press") == 0) {
+            sprintf(console->tmp, "%d [mmHg]\r\n", sensors_data.pressure);
+        } else {
+            sprintf(console->tmp, "Wrong sensor type\r\n");
+        }
+    }
+
+    put_output(console->tmp);
 }

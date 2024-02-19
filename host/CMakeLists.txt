@@ -36,6 +36,7 @@ add_executable(
     src/tests/console_test.cpp
     src/tests/math_test.cpp
     src/tests/commands_test.cpp
+    src/tests/mock_functions.c
     src/utils/utils.c
     src/main.cpp
 )

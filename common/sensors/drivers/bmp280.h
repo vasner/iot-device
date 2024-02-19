@@ -219,6 +219,8 @@ typedef struct {
  * @param ctx: External context. It is passed as parameter into handlers and callbacks
  */
 typedef struct {
+    bool status;
+
     union {
         bmp280_regs_t regs;
         uint16_t regs_u16[BMP280_NUM_REGS];
@@ -245,6 +247,7 @@ typedef struct {
 } bmp280_t;
 
 bool bmp280_init(bmp280_t* state, bmp280_read_reg_t read_register, bmp280_write_reg_t write_register, void* ctx);
+bool bmp280_get_status(bmp280_t* state);
 void bmp280_set_standby_time(bmp280_t* state, bmp280_standby_time_t time);
 void bmp280_set_mode(bmp280_t* state, bmp280_mode_t mode);
 void bmp280_set_pressure_oversampling(bmp280_t* state, bmp280_pressure_oversampling_t oversampling);
