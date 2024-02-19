@@ -12,20 +12,24 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 add_executable( 
         ${EXECUTABLE}
         src/main.c
+        src/common/control/controls.c
         src/common/console/console.c
         src/common/console/commands.c
         src/common/logc/log.c
         src/common/sensors/drivers/bmp280.c
+        src/common/sensors/sensors.c
         src/control/leds.c
         src/interface/vcom_console.c
         src/platform/platform.c
         src/platform/utils.c
         src/platform/vcom.c
+        src/sensors/bmp280_spi.c
         sdk/libraries/cmsis/cm4/device_support/startup/gcc/startup_at32f435_437.s
         sdk/libraries/cmsis/cm4/device_support/system_at32f435_437.c
         sdk/libraries/drivers/src/at32f435_437_crm.c
         sdk/libraries/drivers/src/at32f435_437_gpio.c
         sdk/libraries/drivers/src/at32f435_437_misc.c
+        sdk/libraries/drivers/src/at32f435_437_spi.c
         sdk/libraries/drivers/src/at32f435_437_tmr.c
         sdk/libraries/drivers/src/at32f435_437_usb.c
         sdk/middlewares/usbd_class/cdc/cdc_class.c
@@ -48,6 +52,7 @@ target_include_directories(
         src/common/sensors/drivers
         src/common/utils
         src/platform
+        src/sensors
         sdk/libraries/cmsis/cm4/device_support
         sdk/libraries/cmsis/cm4/core_support
         sdk/libraries/drivers/inc

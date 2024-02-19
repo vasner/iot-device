@@ -27,13 +27,17 @@ add_executable(
     ${EXECUTABLE}
     src/common/console/commands.c
     src/common/console/console.c
+    src/common/control/controls.c
     src/common/logc/log.c
+    src/common/sensors/sensors.c
     src/common/sensors/drivers/bmp280.c
     src/control/leds.c
     src/interface/pipe_console.c
-    src/tests/bmp280_test.cpp
+    src/tests/sensors_test.cpp
     src/tests/console_test.cpp
+    src/tests/math_test.cpp
     src/tests/commands_test.cpp
+    src/tests/mock_functions.c
     src/utils/utils.c
     src/main.cpp
 )

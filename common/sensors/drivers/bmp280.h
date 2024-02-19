@@ -8,13 +8,12 @@
 extern "C" {
 #endif
 
+#include <stdbool.h>
 #include <stdint.h>
 
 #define BMP280_CHIP_ID (0x58)
 
 #define BMP280_CALIB_ADDR (0x25)
-#define BMP280_NUM_CALIB_REGS (26)
-#define BMP280_NUM_CONTROL_REGS (11)
 #define BMP280_NUM_REGS (37)
 
 #define BMP280_RESET_CODE (0xB6)
@@ -80,7 +79,7 @@ typedef enum {
 } bmp280_filter_t;
 
 typedef struct {
-    uint16_t reserved_b4_to_b0: 4;  // Reserved. Set to 0
+    uint16_t reserved_b3_to_b0: 4;  // Reserved. Set to 0
     uint16_t temp_xlsb: 4;          // Contains the XLSB part ut[3:0] of the raw temperature measurement output data
     uint16_t addr: 7;               // Register 7-bit address
     uint16_t rw: 1;                 // Read/Write direction
@@ -99,7 +98,7 @@ typedef struct {
 } bmp280_temp_msb_t;
 
 typedef struct {
-    uint16_t reserved_b4_to_b0: 4;  // Reserved. Set to 0
+    uint16_t reserved_b3_to_b0: 4;  // Reserved. Set to 0
     uint16_t press_xlsb: 4;         // Contains the XLSB part up[3:0] of the raw pressure measurement output data
     uint16_t addr: 7;               // Register 7-bit address
     uint16_t rw: 1;                 // Read/Write direction
@@ -140,7 +139,7 @@ typedef struct {
     // and before every conversion.
     uint16_t im_update: 1;
 
-    uint16_t reserved_b2_to_b1: 4;  // Reserved. Set to 0
+    uint16_t reserved_b2_to_b1: 2;  // Reserved. Set to 0
 
     // Automatically set to `1` whenever a conversion is running and back to `0` when
     // the results have been transferred to the data registers
@@ -220,6 +219,8 @@ typedef struct {
  * @param ctx: External context. It is passed as parameter into handlers and callbacks
  */
 typedef struct {
+    bool status;
+
     union {
         bmp280_regs_t regs;
         uint16_t regs_u16[BMP280_NUM_REGS];
@@ -245,7 +246,8 @@ typedef struct {
     void* ctx;
 } bmp280_t;
 
-void bmp280_init(bmp280_t* state, bmp280_read_reg_t read_register, bmp280_write_reg_t write_register, void* ctx);
+bool bmp280_init(bmp280_t* state, bmp280_read_reg_t read_register, bmp280_write_reg_t write_register, void* ctx);
+bool bmp280_get_status(bmp280_t* state);
 void bmp280_set_standby_time(bmp280_t* state, bmp280_standby_time_t time);
 void bmp280_set_mode(bmp280_t* state, bmp280_mode_t mode);
 void bmp280_set_pressure_oversampling(bmp280_t* state, bmp280_pressure_oversampling_t oversampling);

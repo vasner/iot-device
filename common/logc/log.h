@@ -34,7 +34,15 @@ typedef struct {
 typedef void (*log_LogFn)(log_Event *ev);
 typedef void (*log_LockFn)(bool lock, void *udata);
 
-enum { LOG_LEVEL_TRACE = 0, LOG_LEVEL_DEBUG, LOG_LEVEL_INFO, LOG_LEVEL_WARN, LOG_LEVEL_ERROR, LOG_LEVEL_FATAL };
+enum { 
+  LOG_LEVEL_TRACE = 0, 
+  LOG_LEVEL_DEBUG, 
+  LOG_LEVEL_INFO, 
+  LOG_LEVEL_WARN, 
+  LOG_LEVEL_ERROR, 
+  LOG_LEVEL_FATAL, 
+  NUM_LOG_LEVELS,  // Should always be the last
+};
 
 #define LOG_TRACE(...) log_log(LOG_LEVEL_TRACE, __FILE__, __LINE__, 1, __VA_ARGS__)
 #define LOG_DEBUG(...) log_log(LOG_LEVEL_DEBUG, __FILE__, __LINE__, 1, __VA_ARGS__)
@@ -46,6 +54,7 @@ enum { LOG_LEVEL_TRACE = 0, LOG_LEVEL_DEBUG, LOG_LEVEL_INFO, LOG_LEVEL_WARN, LOG
 const char* log_level_string(int level);
 void log_set_lock(log_LockFn fn, void *udata);
 void log_set_level(int level);
+int  log_get_level(void);
 void log_set_quiet(bool enable);
 
 int log_add_callback(log_LogFn fn, void *udata, int level);

@@ -16,7 +16,7 @@
 #include "utils.h"
 
 // VCOM send/receive timeout and timeout step, in us
-#define _TIMEOUT_US (1000)
+#define _TIMEOUT_US (10000)
 #define _TIMEOUT_STEP_US (16)
 
 #define USB_ID (0)
@@ -84,7 +84,7 @@ void usb_delay_us(uint32_t us) { delay_us(us); }
 uint16_t vcom_receive(uint8_t* data) { return usb_vcp_get_rxdata(&_otg_core_struct.dev, data); }
 
 error_status vcom_send(const uint8_t* data, uint16_t len) {
-    if (len > MAX_LEN_RX_MESSAGE) return ERROR;
+    if (len > MAX_LEN_RX_MESSAGE) { return ERROR; }
 
     error_status result = ERROR;
     uint16_t cnt_timeout = _TIMEOUT_US / _TIMEOUT_STEP_US;
