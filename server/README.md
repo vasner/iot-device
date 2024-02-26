@@ -1,5 +1,10 @@
 # iot-device server
 
+## Project structure
+
+* [server] - Server components source code
+* [web_root][web_root] - Web-server source files
+
 ## Environment
 
 ### Dependency manager
@@ -32,4 +37,10 @@ export IOT_SERVER_HOST="0.0.0.0"
 
 ```shell
 bash run_server.sh
+```
+
+## Run tests
+
+```shell
+bash run_tests.sh
 ```
