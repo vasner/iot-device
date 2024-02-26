@@ -21,9 +21,13 @@ poetry install
 
 Set environment variables:
 
-TODO: Update after implementation
+| Variable        | Description                          |
+|-----------------|--------------------------------------|
+| IOT_SERVER_HOST | Server host IP, default is "0.0.0.0" |
+| IOT_SERVER_PORT | Server port, default is 8000         |
 
 ```shell
+export IOT_SERVER_HOST="0.0.0.0"
 ```
 
 ```shell
