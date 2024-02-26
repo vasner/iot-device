@@ -2,8 +2,8 @@
 
 ## Project structure
 
-* [server] - Server components source code
-* [web_root][web_root] - Web-server source files
+* [server](server) - Server components source code
+* [web_root](web_root) - Web-server source files
 
 ## Environment
 
