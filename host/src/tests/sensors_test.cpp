@@ -24,7 +24,8 @@ TEST_CASE("bme280_measurement", "[sensors][bme280][hw]") {
     REQUIRE(bme280_get_status(&bme280));
     int8_t temp = 0;
     uint16_t press = 0;
-    bme280_get_measurement(&bme280, &press, &temp);
+    uint8_t hum;
+    bme280_get_measurement(&bme280, &press, &temp, &hum);
     REQUIRE(temp == 25);
     REQUIRE(press == 754);
 }

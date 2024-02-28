@@ -14,9 +14,9 @@ static void _reset_registers(bme280_regs_t* state);
 static void _sync_registers(bme280_t* state);
 static int32_t _get_press_raw(bme280_t* state);
 static int32_t _get_temp_raw(bme280_t* state);
-static int16_t _get_hum_raw(bme280_t* state);
+static uint16_t _get_hum_raw(bme280_t* state);
 static int32_t _press_raw_to_pa(bme280_t* state, int32_t p_raw, int32_t t_fine);
-static uint8_t _hum_raw_to_perc(bme280_t* state, int16_t h_raw, int32_t t_fine);
+static uint8_t _hum_raw_to_perc(bme280_t* state, uint16_t h_raw, int32_t t_fine);
 static int32_t _temp_raw_to_fine(bme280_t* state, int32_t t_raw);
 
 /**
@@ -165,14 +165,14 @@ static int32_t _get_temp_raw(bme280_t* state) {
     return (int32_t)((temp_msb << 12) | (temp_lsb << 4) | temp_xlsb);
 }
 
-static int16_t _get_hum_raw(bme280_t* state) {
+static uint16_t _get_hum_raw(bme280_t* state) {
     bme280_regs_t* regs = &state->regs.regs;
     uint16_t* regs_u16 = state->regs.regs_u16;
     uint8_t hum_lsb = state->read_register(state->ctx, regs_u16[BME280_REG_OFFSET_HUM_LSB] & 0xFF00);
     uint8_t hum_msb = state->read_register(state->ctx, regs_u16[BME280_REG_OFFSET_HUM_MSB] & 0xFF00);
     regs->hum_lsb.hum_lsb = hum_lsb;
     regs->hum_msb.hum_msb = hum_msb;
-    return (int16_t)((hum_msb << 8) | (hum_lsb));
+    return (uint16_t)((hum_msb << 8) | hum_lsb);
 }
 
 static int32_t _press_raw_to_pa(bme280_t* state, int32_t p_raw, int32_t t_fine) {
@@ -202,7 +202,7 @@ static int32_t _press_raw_to_pa(bme280_t* state, int32_t p_raw, int32_t t_fine) 
     return (int32_t)((((p + v1 + v2) >> 8) + (dig_p7 << 4)) >> 8);
 }
 
-static uint8_t _hum_raw_to_perc(bme280_t* state, int16_t h_raw, int32_t t_fine) {
+static uint8_t _hum_raw_to_perc(bme280_t* state, uint16_t h_raw, int32_t t_fine) {
     int32_t v1, v2, v3, v4, v5;
 
     int32_t dig_h1 = state->dig_h1;
