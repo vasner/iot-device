@@ -11,7 +11,7 @@ extern "C" {
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "bmp280.h"
+#include "bme280.h"
 
 typedef struct {
     int8_t temperature;
@@ -21,11 +21,11 @@ typedef struct {
 
 typedef struct {
     bool status;
-    bmp280_t bmp280;
+    bme280_t bme280;
 } sensors_t;
 
 bool sensors_init(
-    sensors_t* state, bmp280_read_reg_t bmp280_read_reg, bmp280_write_reg_t bmp280_write_reg, void* bmp280_ctx
+    sensors_t* state, bme280_read_reg_t bme280_read_reg, bme280_write_reg_t bme280_write_reg, void* bme280_ctx
 );
 void sensors_measure(sensors_t* state, sensors_data_t* data);
 bool sensors_get_status(sensors_t* state);

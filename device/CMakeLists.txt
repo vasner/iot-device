@@ -16,14 +16,14 @@ add_executable(
         src/common/console/console.c
         src/common/console/commands.c
         src/common/logc/log.c
-        src/common/sensors/drivers/bmp280.c
+        src/common/sensors/drivers/bme280.c
         src/common/sensors/sensors.c
         src/control/leds.c
         src/interface/vcom_console.c
         src/platform/platform.c
         src/platform/utils.c
         src/platform/vcom.c
-        src/sensors/bmp280_spi.c
+        src/sensors/bme280_spi.c
         sdk/libraries/cmsis/cm4/device_support/startup/gcc/startup_at32f435_437.s
         sdk/libraries/cmsis/cm4/device_support/system_at32f435_437.c
         sdk/libraries/drivers/src/at32f435_437_crm.c

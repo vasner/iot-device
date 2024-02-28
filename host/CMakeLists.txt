@@ -30,7 +30,7 @@ add_executable(
     src/common/control/controls.c
     src/common/logc/log.c
     src/common/sensors/sensors.c
-    src/common/sensors/drivers/bmp280.c
+    src/common/sensors/drivers/bme280.c
     src/control/leds.c
     src/interface/pipe_console.c
     src/tests/sensors_test.cpp

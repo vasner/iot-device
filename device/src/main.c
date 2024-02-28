@@ -4,7 +4,7 @@
 
 #include <string.h>
 
-#include "bmp280_spi.h"
+#include "bme280_spi.h"
 #include "leds.h"
 #include "log.h"
 #include "platform.h"
@@ -30,8 +30,8 @@ int main(void) {
 
     vcom_init();
     vcom_console_init();
-    bmp280_spi_init();
-    sensors_init(&sensors, bmp280_spi_read_reg, bmp280_spi_write_reg, NULL);
+    bme280_spi_init();
+    sensors_init(&sensors, bme280_spi_read_reg, bme280_spi_write_reg, NULL);
 
     leds_blink(&leds, LED_AMBER);
     leds_on(&leds, LED_GREEN);

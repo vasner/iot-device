@@ -4,21 +4,21 @@
 
 #include "mock_functions.h"
 
-#include "bmp280.h"
+#include "bme280.h"
 
-void tests_bmp280_write_reg(void* ctx, uint16_t reg) {
+void tests_bme280_write_reg(void* ctx, uint16_t reg) {
     (void)ctx;
     (void)reg;
 }
 
-uint8_t tests_bmp280_read_reg(void* ctx, uint16_t reg) {
-    bmp280_regs_t* regs = (bmp280_regs_t*)ctx;
+uint8_t tests_bme280_read_reg(void* ctx, uint16_t reg) {
+    bme280_regs_t* regs = (bme280_regs_t*)ctx;
 
     // Mock real data in required registers.
     // Test data is from data-sheet
     uint8_t addr = (reg >> 8) & 0x7F;
     if (addr == regs->id.addr) {
-        return BMP280_CHIP_ID;
+        return BME280_CHIP_ID;
     } else if (addr == regs->temp_xlsb.addr) {
         return (519888 & 0xF) << 4;
     } else if (addr == regs->temp_lsb.addr) {
