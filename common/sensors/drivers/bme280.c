@@ -227,7 +227,7 @@ static uint8_t _hum_raw_to_perc(bme280_t* state, uint16_t h_raw, int32_t t_fine)
     v5 = (v5 < 0) ? 0 : v5;
     v5 = (v5 > 419430400) ? 419430400 : v5;
 
-    return (uint8_t)(v5 >> 22);
+    return (uint8_t)((v5 + 2097152) >> 22);
 }
 
 static int32_t _temp_raw_to_fine(bme280_t* state, int32_t t_raw) {
