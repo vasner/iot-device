@@ -1,17 +1,16 @@
 import serial
-import datetime
 import threading
 import logging
 
 
 class IotDevice:
     _update_rate_s: float
-    _device: serial.Serial
     _sample_json: str = "{}"
+    _device: serial.Serial = None
     _timer: threading.Timer = None
     _version: str = ""
 
-    def __init__(self, port: str = "/dev/ttyACM1", update_rate_s: float = 0.1) -> None:
+    def __init__(self, port: str = "/dev/ttyACM1", update_rate_s: float = 1.0) -> None:
         self._update_rate_s = update_rate_s
         try:
             self._device = serial.Serial(
@@ -27,12 +26,16 @@ class IotDevice:
             raise ConnectionError from e
         else:
             self._version = self._read_version()
-            self._timer = threading.Timer(self._update_rate_s, self._read_sample)
+            self._continuous_poll_sample()
 
     def __del__(self):
-        self._device.close()
+        self.close()
+
+    def close(self):
         if self._timer is not None:
             self._timer.cancel()
+        if self._device is not None:
+            self._device.close()
 
     @property
     def version(self) -> str:
@@ -41,11 +44,16 @@ class IotDevice:
     def get_sample_json(self) -> str:
         return self._sample_json
 
-    def _read_sample(self):
-        print(datetime.datetime.now())
-        # self._device.write("sample\r\n".encode())
-        # self._device.readline().decode()
+    def _continuous_poll_sample(self):
+        self._device.write("sample\r\n".encode())
+        self._sample_json = IotDevice._clear_device_response(self._device.readline().decode())
+        self._timer = threading.Timer(self._update_rate_s, self._continuous_poll_sample)
+        self._timer.start()
 
     def _read_version(self) -> str:
         self._device.write("version\r\n".encode())
-        return self._device.readline().decode().replace("\n", "")
+        return IotDevice._clear_device_response(self._device.readline().decode())
+
+    @staticmethod
+    def _clear_device_response(response: str):
+        return response.replace("\n", "").replace(">>> ", "")
