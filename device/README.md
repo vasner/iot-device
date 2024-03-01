@@ -6,8 +6,7 @@ Device is based on:
 * [AT32F437 Series](https://www.arterychip.com/en/product/AT32F437.jsp) MCU by 
   [ArteryTek](https://www.arterychip.com/), specifically [AT_START_F437_V1.1](https://www.arterychip.com/download/AT-START/AT_START_F437_V1.1.zip)
   board
-* Digital pressure/temperature sensor [BMP280](https://cdn-shop.adafruit.com/datasheets/BST-BMP280-DS001-11.pdf)
-* Digital-output relative humidity & temperature sensor [DHT22](https://www.sparkfun.com/datasheets/Sensors/Temperature/DHT22.pdf)
+* Digital pressure/temperature/humidity sensor [BME280](https://www.bosch-sensortec.com/products/environmental-sensors/humidity-sensors-bme280/)
 
 
 ## Programming via JTAG

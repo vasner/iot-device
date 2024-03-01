@@ -10,8 +10,8 @@ extern "C" {
 
 #include <stdint.h>
 
-void tests_bmp280_write_reg(void* ctx, uint16_t reg);
-uint8_t tests_bmp280_read_reg(void* ctx, uint16_t reg);
+void tests_bme280_write_reg(void* ctx, uint16_t reg);
+uint8_t tests_bme280_read_reg(void* ctx, uint16_t reg);
 
 #ifdef __cplusplus
 }

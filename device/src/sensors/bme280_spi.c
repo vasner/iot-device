@@ -1,15 +1,15 @@
 /**
- * BMP280, Digital Pressure Sensor SPI inteface implementation
+ * BME280, Combined humidity and pressure sensor SPI inteface implementation
  */
 
-#include "bmp280_spi.h"
+#include "bme280_spi.h"
 
 #include "platform.h"
 
 static inline void _cs_hi(void) { GPIOD->scr = GPIO_PINS_0; }
 static inline void _cs_low(void) { GPIOD->clr = GPIO_PINS_0; }
 
-void bmp280_spi_init(void) {
+void bme280_spi_init(void) {
     crm_periph_clock_enable(CRM_SPI2_PERIPH_CLOCK, TRUE);
     crm_periph_clock_enable(CRM_GPIOC_PERIPH_CLOCK, TRUE);
     crm_periph_clock_enable(CRM_GPIOD_PERIPH_CLOCK, TRUE);
@@ -60,9 +60,9 @@ void bmp280_spi_init(void) {
     spi_enable(SPI2, TRUE);
 }
 
-void bmp280_spi_write_reg(void* ctx, uint16_t reg) { bmp280_spi_read_reg(ctx, reg); }
+void bme280_spi_write_reg(void* ctx, uint16_t reg) { bme280_spi_read_reg(ctx, reg); }
 
-uint8_t bmp280_spi_read_reg(void* ctx, uint16_t reg) {
+uint8_t bme280_spi_read_reg(void* ctx, uint16_t reg) {
     (void)ctx;
     while (spi_i2s_flag_get(SPI2, SPI_I2S_TDBE_FLAG) == RESET) {}
     _cs_low();

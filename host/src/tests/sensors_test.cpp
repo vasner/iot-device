@@ -1,32 +1,39 @@
 /**
- * Tests for BMP280, Digital Pressure Sensor, Bosch Sensortec
+ * Tests for BME280, Combined humidity and pressure sensor
  */
 
 #include "sensors.h"
 
-#include "bmp280.h"
+#include "bme280.h"
 #include "catch.hpp"
 
-extern bmp280_t bmp280;
+extern bme280_t bme280;
 extern sensors_t sensors;
 
-TEST_CASE("bmp280_temperature", "[sensors][bmp280][hw]") {
-    int8_t temp = bmp280_get_temperature(&bmp280);
+TEST_CASE("bme280_temperature", "[sensors][bme280][hw]") {
+    int8_t temp = bme280_get_temperature(&bme280);
     REQUIRE(temp == 25);
 }
 
-TEST_CASE("bmp280_pressure", "[sensors][bmp280][hw]") {
-    uint16_t press = bmp280_get_pressure(&bmp280);
+TEST_CASE("bme280_pressure", "[sensors][bme280][hw]") {
+    uint16_t press = bme280_get_pressure(&bme280);
     REQUIRE(press == 754);
 }
 
-TEST_CASE("bmp280_measurement", "[sensors][bmp280][hw]") {
-    REQUIRE(bmp280_get_status(&bmp280));
+TEST_CASE("bme280_humidity", "[sensors][bme280][hw]") {
+    uint8_t hum = bme280_get_humidity(&bme280);
+    REQUIRE(hum == 47);
+}
+
+TEST_CASE("bme280_measurement", "[sensors][bme280][hw]") {
+    REQUIRE(bme280_get_status(&bme280));
     int8_t temp = 0;
     uint16_t press = 0;
-    bmp280_get_measurement(&bmp280, &press, &temp);
+    uint8_t hum;
+    bme280_get_measurement(&bme280, &press, &temp, &hum);
     REQUIRE(temp == 25);
     REQUIRE(press == 754);
+    REQUIRE(hum == 47);
 }
 
 TEST_CASE("sensors", "[sensors][hw]") {
@@ -35,5 +42,5 @@ TEST_CASE("sensors", "[sensors][hw]") {
     sensors_measure(&sensors, &data);
     REQUIRE(data.temperature == 25);
     REQUIRE(data.pressure == 754);
-    REQUIRE(data.humidity == 0);
+    REQUIRE(data.humidity == 47);
 }

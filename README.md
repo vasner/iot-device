@@ -11,7 +11,7 @@ Detailed description of sensors is in [device project](device/README.md).
 * [common](conmmon) - Contains common device/host components
 * [device](device) - Contains firmware source code
 * [host](host) - Contains device source code that can be run on host: unit-tests or test applications for firmware source code
-* [server](hardware) - Contains server source code
+* [server](server) - Contains server source code
 
 
 ## Recommended developer environment
@@ -66,6 +66,10 @@ sudo apt install clang-format-14
 ```shell
 pip install pre-commit==3.3.1
 ```
+* [Black](https://github.com/psf/black)
+```shell
+pip install black==22.3.0
+```
 
 ### Install pre-commit hooks
 
@@ -79,6 +83,11 @@ pre-commit install
 * Use spaces instead of tabs
 * Tab width is 4
 * Code line width is 120
+
+### Python
+
+See [Black code style](https://black.readthedocs.io/en/stable/the_black_code_style/current_style.html) for details.
+For docstrings use [Google Style](https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html).
 
 ### C/C++
 
