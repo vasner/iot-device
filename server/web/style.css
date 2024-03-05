@@ -12,9 +12,8 @@ body {
 }
 
 .header {
-  height: 60px;
+  height: 1vh;
   overflow: hidden;
-  font-size: 14pt;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -25,10 +24,10 @@ body {
 .main {
   flex: 1;
   overflow: auto;
-  font-size: 12pt;
-  background: var(--blue);
   padding-left: 15px;
   padding-top: 15px;
+  display: inline-grid;
+  align-items: center;
 }
 
 .footer {
@@ -40,7 +39,7 @@ body {
   padding-left: 15px;
 }
 
-.footer-label {
+.footer .label {
   display: flex;
   color: var(--black);
   font-size: 2vh;
@@ -48,9 +47,24 @@ body {
   margin: auto;
 }
 
+.sensor-container {
+  display: flex;
+}
+
+.sensor-container .label {
+  display: flex;
+  color: var(--black);
+  font-size: 20vmin;
+  font-weight: bold;
+  margin: auto;
+}
+
+.sensor-container .label.unit {
+  font-size: 15vmin;
+}
+
 :root {
   --black: #000000;
   --white: #ffffff;
-  --gray: #7a7a7a;
   --light-gray: #b4b4b4;
 }

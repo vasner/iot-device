@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(iot_device)
+project(iot_host)
 
 set(EXECUTABLE ${PROJECT_NAME})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
