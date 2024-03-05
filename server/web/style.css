@@ -1,6 +1,6 @@
 body {
   overflow: hidden;
-  font-family: sans-serif;
+  font-family: monospace;
   color: var(--white);
   margin: 0;
 }
@@ -32,10 +32,9 @@ body {
 }
 
 .footer {
-  height: 30px;
+  height: 8vh;
   background: var(--light-gray);
   overflow: hidden;
-  font-size: 10pt;
   display: flex;
   align-items: center;
   padding-left: 15px;
@@ -44,7 +43,7 @@ body {
 .footer-label {
   display: flex;
   color: var(--black);
-  font-size: 10pt;
+  font-size: 2vh;
   font-weight: bold;
   margin: auto;
 }
