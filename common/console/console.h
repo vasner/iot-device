@@ -10,7 +10,7 @@ extern "C" {
 
 #include <stdint.h>
 
-#define CONSOLE_MAX_LEN_MESSAGE_BYTES (128)
+#define CONSOLE_MAX_LEN_MESSAGE_BYTES (255)
 
 typedef enum {
     CONSOLE_COMMAND_HELP = 0,

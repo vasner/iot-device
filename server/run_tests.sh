@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Runs iot-devise server tests
+# Runs iot-device server tests
 
 set -e
 

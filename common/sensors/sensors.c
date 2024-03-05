@@ -38,9 +38,9 @@ bool sensors_get_status(sensors_t* state) { return state->status; }
 void sensors_to_json(sensors_data_t* data, char* json) {
     sprintf(
         json,
-        "{\"temperature\":{\"value\":%d,\"unit\":\"%c%cC\"},"
-        "\"pressure\":{\"value\":%d,\"unit\":\"mmHg\"},"
-        "\"humidity\":{\"value\":%d,\"unit\":\"%%\"}}",
+        "[{\"name\":\"temperature\",\"value\":%d,\"unit\":\"%c%cC\"},"
+        "{\"name\":\"pressure\",\"value\":%d,\"unit\":\"mmHg\"},"
+        "{\"name\":\"humidity\",\"value\":%d,\"unit\":\"%%\"}]",
         data->temperature, 0xC2, 0xB0, data->pressure, data->humidity
     );
 }

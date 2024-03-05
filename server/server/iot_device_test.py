@@ -13,4 +13,4 @@ def test_iot_device():
     else:
         version = device.version
         device.close()
-        assert version == "0.3.0"
+        assert version == "0.4.0"

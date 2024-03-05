@@ -13,8 +13,8 @@ extern "C" {
 
 #include "platform.h"
 
-#define MAX_LEN_RX_MESSAGE (128)
-#define MAX_LEN_TX_MESSAGE (128)
+#define MAX_LEN_RX_MESSAGE (255)
+#define MAX_LEN_TX_MESSAGE (255)
 
 void vcom_init(void);
 uint16_t vcom_receive(uint8_t* data);
