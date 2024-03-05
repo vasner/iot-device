@@ -4,7 +4,7 @@ Main tasks of IoT device are measuring temperature, pressure and humidity, contr
 
 Device is based on:
 * [AT32F437 Series](https://www.arterychip.com/en/product/AT32F437.jsp) MCU by 
-  [ArteryTek][https://www.arterychip.com/], specifically [AT_START_F437_V1.1](https://www.arterychip.com/download/AT-START/AT_START_F437_V1.1.zip)
+  [ArteryTek](https://www.arterychip.com/), specifically [AT_START_F437_V1.1](https://www.arterychip.com/download/AT-START/AT_START_F437_V1.1.zip)
   board
 * Digital pressure/temperature/humidity sensor [BME280](https://www.bosch-sensortec.com/products/environmental-sensors/humidity-sensors-bme280/)
 
